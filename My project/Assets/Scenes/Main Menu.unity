@@ -168,7 +168,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00928dcdcc58b714fa0860f71a1fc953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sounds: []
+  Sounds:
+  - soundType: 4
+    soundClip: {fileID: 8300000, guid: 7e2796f60617cc645a6dfdb975334fbf, type: 3}
+  - soundType: 0
+    soundClip: {fileID: 8300000, guid: 68c65aec95671b549be3b900cc305b1e, type: 3}
   soundEffect: {fileID: 1913753906}
   soundMusic: {fileID: 715893237}
 --- !u!1 &141707078

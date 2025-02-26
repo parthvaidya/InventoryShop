@@ -19,14 +19,14 @@ public class MainMenuButton : MonoBehaviour
 
     private void startGame()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
+        SoundManager.Instance.Play(Sounds.ButtonClick);
         SceneManager.LoadScene(1);
     }
 
 
     private void Quit()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
+        SoundManager.Instance.Play(Sounds.ButtonClick);
         SceneManager.LoadScene(2);
     }
 }
