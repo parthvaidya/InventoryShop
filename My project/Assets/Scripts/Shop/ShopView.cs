@@ -8,7 +8,7 @@ public class ShopView : MonoBehaviour
 {
     public GameObject itemPrefab; // Assign the generic prefab in the Inspector
     private TextMeshProUGUI itemDetailsText;
-    private Image itemIcon;
+    public Image itemIcon;
 
     // Dictionary to hold category-specific containers
     public Dictionary<ItemType, Transform> categoryContainers = new Dictionary<ItemType, Transform>();
@@ -118,12 +118,22 @@ public class ShopView : MonoBehaviour
         }
     }
 
+    
+
     public void ShowItemDetails(ShopItems item)
     {
-        itemDetailsText.text = $"{item.itemName}\n{item.description}\nWeight: {item.weight}\nPrice: {item.buyPrice}G";
-        itemIcon.sprite = item.icon;
+        if (item == null)
+        {
+            Debug.LogError("ShowItemDetails: item is null!");
+            return;
+        }
+        if (ShopPopup.Instance == null)
+        {
+            Debug.LogError("ShopPopup.Instance is null! Make sure the popup is in the scene and active.");
+            return;
+        }
 
-        // Open the pop-up screen
+        // Only show the popup, skip text/icon logic
         ShopPopup.Instance.ShowItemPopup(item);
     }
 }
