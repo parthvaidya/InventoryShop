@@ -1,0 +1,83 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ShopView : MonoBehaviour
+{
+    public GameObject itemPrefab; // Assign the generic prefab in the Inspector
+    private TextMeshProUGUI itemDetailsText;
+    private Image itemIcon;
+
+    // Dictionary to hold category-specific containers
+    public Dictionary<ItemType, Transform> categoryContainers = new Dictionary<ItemType, Transform>();
+
+    private List<GameObject> displayedItems = new List<GameObject>();
+
+    // Assign containers in Unity Inspector (via GameObjects for each category)
+    public Transform allContainer;
+    public Transform consumableContainer;
+    public Transform materialContainer;
+    public Transform treasureContainer;
+    public Transform weaponsContainer;
+
+    private void Start()
+    {
+        // Initialize category containers
+        categoryContainers[ItemType.All] = allContainer;
+        categoryContainers[ItemType.Consumables] = consumableContainer;
+        categoryContainers[ItemType.Materials] = materialContainer;
+        categoryContainers[ItemType.Treasures] = treasureContainer;
+        categoryContainers[ItemType.Weapons] = weaponsContainer;
+    }
+
+    public void DisplayItems(List<ShopItems> items, ItemType category)
+    {
+        if (!categoryContainers.ContainsKey(category) || categoryContainers[category] == null)
+        {
+            Debug.LogError($"ShopView: No container assigned for category {category}!");
+            return;
+        }
+
+        Transform itemContainer = categoryContainers[category]; // Get correct container
+
+        Debug.Log($"Displaying {items.Count} items in category {category}.");
+
+        // Clear previous items
+        foreach (var obj in displayedItems)
+        {
+            Destroy(obj);
+        }
+        displayedItems.Clear();
+
+        // Populate new items dynamically
+        foreach (var item in items)
+        {
+            GameObject newItem = Instantiate(itemPrefab, itemContainer);
+
+            // ✅ Get components from the instantiated prefab directly
+            Image itemImage = newItem.GetComponentInChildren<Image>();
+            TextMeshProUGUI quantityText = newItem.GetComponentInChildren<TextMeshProUGUI>();
+
+            // Assign data
+            itemImage.sprite = item.icon;
+            quantityText.text = item.quantity.ToString();
+
+            // Attach click event to show details
+            newItem.GetComponent<Button>().onClick.AddListener(() => ShowItemDetails(item));
+
+            displayedItems.Add(newItem);
+            Debug.Log($"Item: {item.itemName}, Icon: {item.icon}, Quantity: {item.quantity}");
+        }
+    }
+
+    public void ShowItemDetails(ShopItems item)
+    {
+        itemDetailsText.text = $"{item.itemName}\n{item.description}\nWeight: {item.weight}\nPrice: {item.buyPrice}G";
+        itemIcon.sprite = item.icon;
+
+        // Open the pop-up screen
+        ShopPopup.Instance.ShowItemPopup(item);
+    }
+}
