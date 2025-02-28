@@ -32,6 +32,46 @@ public class ShopView : MonoBehaviour
         categoryContainers[ItemType.Weapons] = weaponsContainer;
     }
 
+    //public void DisplayItems(List<ShopItems> items, ItemType category)
+    //{
+    //    if (!categoryContainers.ContainsKey(category) || categoryContainers[category] == null)
+    //    {
+    //        Debug.LogError($"ShopView: No container assigned for category {category}!");
+    //        return;
+    //    }
+
+    //    Transform itemContainer = categoryContainers[category]; // Get correct container
+
+    //    Debug.Log($"Displaying {items.Count} items in category {category}.");
+
+    //    // Clear previous items
+    //    foreach (var obj in displayedItems)
+    //    {
+    //        Destroy(obj);
+    //    }
+    //    displayedItems.Clear();
+
+    //    // Populate new items dynamically
+    //    foreach (var item in items)
+    //    {
+    //        GameObject newItem = Instantiate(itemPrefab, itemContainer);
+
+    //        // Get components from the instantiated prefab directly
+    //        Image itemImage = newItem.GetComponentInChildren<Image>();
+    //        TextMeshProUGUI quantityText = newItem.GetComponentInChildren<TextMeshProUGUI>();
+
+    //        // Assign data
+    //        itemImage.sprite = item.icon;
+    //        quantityText.text = item.quantity.ToString();
+
+    //        // Attach click event to show details
+    //        newItem.GetComponent<Button>().onClick.AddListener(() => ShowItemDetails(item));
+
+    //        displayedItems.Add(newItem);
+    //        Debug.Log($"Item: {item.itemName}, Icon: {item.icon}, Quantity: {item.quantity}");
+    //    }
+    //}
+
     public void DisplayItems(List<ShopItems> items, ItemType category)
     {
         if (!categoryContainers.ContainsKey(category) || categoryContainers[category] == null)
@@ -40,9 +80,7 @@ public class ShopView : MonoBehaviour
             return;
         }
 
-        Transform itemContainer = categoryContainers[category]; // Get correct container
-
-        Debug.Log($"Displaying {items.Count} items in category {category}.");
+        Transform itemContainer = categoryContainers[category];
 
         // Clear previous items
         foreach (var obj in displayedItems)
@@ -56,13 +94,21 @@ public class ShopView : MonoBehaviour
         {
             GameObject newItem = Instantiate(itemPrefab, itemContainer);
 
-            // ✅ Get components from the instantiated prefab directly
-            Image itemImage = newItem.GetComponentInChildren<Image>();
-            TextMeshProUGUI quantityText = newItem.GetComponentInChildren<TextMeshProUGUI>();
+            // Get the ItemIcon specifically
+            Image itemIcon = newItem.transform.Find("ItemIcon").GetComponent<Image>();
+
+            // Get the Quantity Text specifically
+            TextMeshProUGUI quantityText = newItem.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+
+            // Get the Button Background Image separately
+            Image buttonBackground = newItem.GetComponent<Image>();
 
             // Assign data
-            itemImage.sprite = item.icon;
+            itemIcon.sprite = item.icon; // Correctly assigns the item sprite
             quantityText.text = item.quantity.ToString();
+
+            // (Optional) Change button background color if needed
+            buttonBackground.color = Color.white;  // You can customize this dynamically
 
             // Attach click event to show details
             newItem.GetComponent<Button>().onClick.AddListener(() => ShowItemDetails(item));

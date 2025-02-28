@@ -471,7 +471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allItems:
-  - {fileID: 11400000, guid: 738cf45cef0908649b47f690ecef2ad8, type: 2}
+  - {fileID: 11400000, guid: 0e012d6d096d70b469775cf55aa8a663, type: 2}
   - {fileID: 11400000, guid: b566ccbc8d561d748b880dbbc0ecbfdd, type: 2}
 --- !u!4 &135008507
 Transform:
@@ -1340,7 +1340,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 50, y: 50}
+  m_CellSize: {x: 80, y: 100}
   m_Spacing: {x: 20, y: 20}
   m_Constraint: 0
   m_ConstraintCount: 2
@@ -2409,7 +2409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 0
+  m_ShowMaskGraphic: 1
 --- !u!114 &979574717
 MonoBehaviour:
   m_ObjectHideFlags: 0
