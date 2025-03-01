@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3216ae1a06316c0409eb487bab4de799, type: 3}
-  m_Name: Itemscollection
+  m_Name: ItemscollectionInventory
   m_EditorClassIdentifier: 
   items:
   - itemName: Leaf of Life
     description: Life for extra life
     itemType: 1
     rarity: 4
-    quantity: 20
-    weight: 15
+    quantity: 10
+    weight: 5
     buyPrice: 750
     sellPrice: 800
     icon: {fileID: 21300000, guid: 17140e59711297c47b6438d2a2328e20, type: 3}
@@ -26,8 +26,8 @@ MonoBehaviour:
     description: 'To cut wood '
     itemType: 4
     rarity: 1
-    quantity: 25
-    weight: 25
+    quantity: 12
+    weight: 7
     buyPrice: 10
     sellPrice: 7
     icon: {fileID: 21300000, guid: b54b94da5cee5c046bf327246ac181e6, type: 3}
@@ -35,7 +35,7 @@ MonoBehaviour:
     description: Crown of cleopatra
     itemType: 3
     rarity: 2
-    quantity: 30
+    quantity: 7
     weight: 10
     buyPrice: 150
     sellPrice: 200
@@ -44,8 +44,8 @@ MonoBehaviour:
     description: To kill enemies and animals
     itemType: 4
     rarity: 0
-    quantity: 12
-    weight: 15
+    quantity: 13
+    weight: 7
     buyPrice: 15
     sellPrice: 20
     icon: {fileID: 21300000, guid: 8f908a0041a1aee4c8b02d9449ebd224, type: 3}
@@ -54,7 +54,7 @@ MonoBehaviour:
     itemType: 3
     rarity: 3
     quantity: 10
-    weight: 15
+    weight: 8
     buyPrice: 250
     sellPrice: 300
     icon: {fileID: 21300000, guid: 9d7e931295e92b8419dde467e5f709b8, type: 3}
@@ -63,7 +63,7 @@ MonoBehaviour:
     itemType: 4
     rarity: 2
     quantity: 15
-    weight: 30
+    weight: 10
     buyPrice: 30
     sellPrice: 35
     icon: {fileID: 21300000, guid: 08d5ec2d201ece949a5e428ba3ea0e63, type: 3}
@@ -71,8 +71,8 @@ MonoBehaviour:
     description: plant of happyness
     itemType: 2
     rarity: 0
-    quantity: 20
-    weight: 20
+    quantity: 13
+    weight: 6
     buyPrice: 25
     sellPrice: 30
     icon: {fileID: 21300000, guid: 4f83da16a2d475f42a8fb81cd908c3fd, type: 3}
@@ -80,8 +80,8 @@ MonoBehaviour:
     description: To keep coins
     itemType: 2
     rarity: 2
-    quantity: 13
-    weight: 15
+    quantity: 12
+    weight: 14
     buyPrice: 65
     sellPrice: 80
     icon: {fileID: 21300000, guid: 098c04e31cd452146be0441cc6f3ae86, type: 3}
@@ -89,8 +89,8 @@ MonoBehaviour:
     description: To put on bow
     itemType: 4
     rarity: 1
-    quantity: 17
-    weight: 20
+    quantity: 12
+    weight: 5
     buyPrice: 15
     sellPrice: 10
     icon: {fileID: 21300000, guid: 98bdcbf4fc31e2340bc64a5db9ac98f8, type: 3}
@@ -98,8 +98,8 @@ MonoBehaviour:
     description: Potion of XP
     itemType: 1
     rarity: 3
-    quantity: 23
-    weight: 23
+    quantity: 3
+    weight: 8
     buyPrice: 550
     sellPrice: 600
     icon: {fileID: 21300000, guid: 0edcb30428af9c34b9114c75ee984bf2, type: 3}
@@ -107,8 +107,8 @@ MonoBehaviour:
     description: Special sword with fire
     itemType: 4
     rarity: 3
-    quantity: 22
-    weight: 45
+    quantity: 2
+    weight: 2
     buyPrice: 75
     sellPrice: 105
     icon: {fileID: 21300000, guid: 5fd50594014b70e48bd6993443d46b32, type: 3}
@@ -116,8 +116,8 @@ MonoBehaviour:
     description: Ruby red diamonds
     itemType: 3
     rarity: 1
-    quantity: 30
-    weight: 15
+    quantity: 10
+    weight: 6
     buyPrice: 125
     sellPrice: 120
     icon: {fileID: 21300000, guid: 1200fd4c89ff9654483fdc0805358f5e, type: 3}
@@ -125,8 +125,8 @@ MonoBehaviour:
     description: Special shield with 100 hp
     itemType: 4
     rarity: 4
-    quantity: 12
-    weight: 55
+    quantity: 5
+    weight: 12
     buyPrice: 110
     sellPrice: 150
     icon: {fileID: 21300000, guid: f270ae2815e437842921f264c20b5271, type: 3}
@@ -134,8 +134,8 @@ MonoBehaviour:
     description: Necklace of queen
     itemType: 3
     rarity: 4
-    quantity: 23
-    weight: 20
+    quantity: 2
+    weight: 7
     buyPrice: 350
     sellPrice: 400
     icon: {fileID: 21300000, guid: 8e859c149e0cd814ea9acc8581953bd6, type: 3}
@@ -143,8 +143,8 @@ MonoBehaviour:
     description: Book of wisdom
     itemType: 2
     rarity: 1
-    quantity: 33
-    weight: 30
+    quantity: 30
+    weight: 4
     buyPrice: 45
     sellPrice: 30
     icon: {fileID: 21300000, guid: 01e77d20268c10549970c6e3787cd10e, type: 3}
@@ -152,8 +152,8 @@ MonoBehaviour:
     description: Potion of healing
     itemType: 1
     rarity: 2
-    quantity: 43
-    weight: 10
+    quantity: 2
+    weight: 3
     buyPrice: 450
     sellPrice: 500
     icon: {fileID: 21300000, guid: 10876d86c0d0c7948ab7c3f219be6325, type: 3}
