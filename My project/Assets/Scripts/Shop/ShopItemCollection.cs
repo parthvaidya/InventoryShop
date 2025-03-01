@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemTypes { All, Consumables, Materials, Treasures, Weapons }
-public enum Raritys { VeryCommon, Common, Rare, Epic, Legendary }
+public enum ItemType { All, Consumables, Materials, Treasures, Weapons }
+public enum Rarity { VeryCommon, Common, Rare, Epic, Legendary }
 
 [CreateAssetMenu(fileName = "NewShopItemCollection", menuName = "Shop/ItemCollection")]
 public class ShopItemCollection : ScriptableObject
