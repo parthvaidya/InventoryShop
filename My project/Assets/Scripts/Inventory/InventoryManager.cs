@@ -9,16 +9,16 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager Instance;
 
     [Header("UI References")]
-    public Button gatherResourcesButton; // Assign in Inspector
-    public GameObject itemPrefab; // Assign the inventory item prefab in the Inspector
-    public Transform inventoryContainer; // Assign Inventory UI container
-    public TextMeshProUGUI weightText; // Assign inventory weight UI
+    [SerializeField] private Button gatherResourcesButton; // Assign in Inspector
+    [SerializeField] private GameObject itemPrefab; // Assign the inventory item prefab in the Inspector
+    [SerializeField] private Transform inventoryContainer; // Assign Inventory UI container
+    [SerializeField] private TextMeshProUGUI weightText; // Assign inventory weight UI
 
     [Header("Inventory Settings")]
-    public float maxWeight = 50f; // Inventory max capacity
+    private float maxWeight = 50f; // Inventory max capacity
 
     [Header("Item Data")]
-    public ShopItemCollection itemCollection; // Assign the ScriptableObject in Inspector
+    [SerializeField] private ShopItemCollection itemCollection; // Assign the ScriptableObject in Inspector
 
     private List<GameObject> displayedItems = new List<GameObject>();
     private float currentWeight = 0f;
@@ -83,8 +83,11 @@ public class InventoryManager : MonoBehaviour
             quantityText.text = item.quantity.ToString();
 
             displayedItems.Add(newItem);
+            newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item));
+
         }
     }
+
 
     private void ClearInventory()
     {
@@ -97,6 +100,6 @@ public class InventoryManager : MonoBehaviour
 
     private void UpdateWeightUI()
     {
-        weightText.text = $"{currentWeight} / {maxWeight} lbs";
+        weightText.text = $"{currentWeight} / {maxWeight} KG";
     }
 }
