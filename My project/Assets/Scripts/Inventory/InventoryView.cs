@@ -56,7 +56,7 @@ public class InventoryView : MonoBehaviour
         quantityText.text = item.quantity.ToString();
 
         displayedItems.Add(newItem);
-        newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item , inventoryController));
+        newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item , inventoryController , this));
     }
 
     public void RefreshInventoryUI(InventoryModel inventoryModel , InventoryController inventoryController)

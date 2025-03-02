@@ -9,9 +9,12 @@ public class InventoryController : MonoBehaviour
 
     private InventoryModel inventoryModel;
 
+    public float CurrentWeight => inventoryModel.CurrentWeight;
+    public float MaxWeight => inventoryModel.MaxWeight;
+
     private void Awake()
     {
-        inventoryModel = new InventoryModel(50f);
+        inventoryModel = new InventoryModel(200f);
         inventoryView.Initialize(GatherResources, CloseInventoryPanel);
         inventoryModel.OnInventoryUpdated += () => inventoryView.RefreshInventoryUI(inventoryModel , this);
     }
@@ -70,8 +73,14 @@ public class InventoryController : MonoBehaviour
     {
         inventoryModel.RemoveItem(item, quantity);
         inventoryView.RefreshInventoryUI(inventoryModel , this); // Update UI
+        inventoryView.UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight);
+        Debug.Log($"Updated InventoryController: {CurrentWeight} / {MaxWeight}");
     }
 
+    public void RefreshInventoryUI()
+    {
+        inventoryView.RefreshInventoryUI(inventoryModel, this);
+    }
 
     public void ResetGame()
     {

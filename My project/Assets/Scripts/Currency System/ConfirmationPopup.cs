@@ -86,6 +86,6 @@ public class ConfirmationPopup : MonoBehaviour
     public void ClosePopup()
     {
         popupPanel.SetActive(false);
-        invenryPopUp.SetActive(false);
+        //invenryPopUp.SetActive(false);
     }
 }

@@ -17,6 +17,8 @@ public class InventoryPopup : MonoBehaviour
     [SerializeField] private Button addButton, removeButton, sellButton, closeButton;
 
     private InventoryController inventoryController;
+    private InventoryView inventoryView;
+    private InventoryModel inventoryModel;
     private ShopItem currentItem;
     private int currentQuantity;
 
@@ -33,9 +35,10 @@ public class InventoryPopup : MonoBehaviour
         sellButton.onClick.AddListener(OpenSellConfirmation);
     }
 
-    public void ShowItemPopup(ShopItem item, InventoryController inventoryController)
+    public void ShowItemPopup(ShopItem item, InventoryController inventoryController , InventoryView inventoryView)
     {
         this.inventoryController = inventoryController;
+        this.inventoryView = inventoryView;
         currentItem = item;
         currentQuantity = 1; // Start at 1 instead of full quantity
         UpdatePopupUI();
@@ -74,38 +77,38 @@ public class InventoryPopup : MonoBehaviour
         }
     }
 
-    public void SellItem()
-    {
-        if (currentItem != null && currentQuantity > 0)
-        {
-            int totalSellPrice = currentItem.sellPrice * currentQuantity;
+    //public void SellItem()
+    //{
+    //    if (currentItem != null && currentQuantity > 0)
+    //    {
+    //        int totalSellPrice = currentItem.sellPrice * currentQuantity;
 
-            // Increase currency
-            CurrencyManager.Instance.AddCurrency(totalSellPrice);
+    //        // Increase currency
+    //        CurrencyManager.Instance.AddCurrency(totalSellPrice);
 
-            if (inventoryController == null)
-            {
-                Debug.LogError("InventoryController is null! Make sure it's properly assigned.");
-                return;
-            }
+    //        if (inventoryController == null)
+    //        {
+    //            Debug.LogError("InventoryController is null! Make sure it's properly assigned.");
+    //            return;
+    //        }
 
-            //currentItem.quantity = Mathf.Max(0, currentItem.quantity - currentQuantity);
-            //inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
+    //        //currentItem.quantity = Mathf.Max(0, currentItem.quantity - currentQuantity);
+    //        //inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
 
-            // Reduce quantity in inventory
-            currentItem.quantity -= currentQuantity;
-            if (currentItem.quantity <= 0)
-            {
-                inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
-            }
+    //        // Reduce quantity in inventory
+    //        currentItem.quantity -= currentQuantity;
+    //        if (currentItem.quantity <= 0)
+    //        {
+    //            inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
+    //        }
 
-            Debug.Log($"Sold {currentQuantity}x {currentItem.itemName} for {totalSellPrice}G");
+    //        Debug.Log($"Sold {currentQuantity}x {currentItem.itemName} for {totalSellPrice}G");
 
-            // Reset quantity to 1 and update UI
-            currentQuantity = 1;
-            UpdatePopupUI();
-        }
-    }
+    //        // Reset quantity to 1 and update UI
+    //        currentQuantity = 1;
+    //        UpdatePopupUI();
+    //    }
+    //}
 
 
     private void OpenSellConfirmation()
@@ -135,21 +138,45 @@ public class InventoryPopup : MonoBehaviour
                 return;
             }
 
-            currentItem.quantity -= currentQuantity;
-            if (currentItem.quantity <= 0)
+            //currentItem.quantity -= currentQuantity;
+            //if (currentItem.quantity <= 0)
+            //{
+            //    inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
+            //    ClosePopup(); // Close the popup if the item is gone
+            //}
+            //else
+            //{
+            //    UpdatePopupUI(); // Update the popup if some quantity remains
+            //}
+            if (currentItem.quantity > 0)
             {
                 inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
             }
-
-            Debug.Log($"Sold {currentQuantity}x {currentItem.itemName} for {totalSellPrice}G");
+            else
+            {
+                ClosePopup(); // Close the popup if the item is gone
+            }
 
             currentQuantity = 1;
+            Debug.Log($"Attempting to sell {currentQuantity}x {currentItem?.itemName ?? "NULL"}");
+            
+            
+            Debug.Log($"InventoryController is {inventoryController.CurrentWeight} , {inventoryController.MaxWeight}");
+            inventoryController.RefreshInventoryUI();
+
+            inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
+
+
+
             UpdatePopupUI();
         }
     }
     public void ClosePopup()
     {
         popupPanel.SetActive(false);
+        inventoryController.RefreshInventoryUI();
+
+        inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
     }
 
 
