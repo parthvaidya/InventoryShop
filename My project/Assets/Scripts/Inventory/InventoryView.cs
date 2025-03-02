@@ -46,7 +46,7 @@ public class InventoryView : MonoBehaviour
         capacityReachedPanel.SetActive(false);
     }
 
-    public void AddItemToInventory(ShopItem item)
+    public void AddItemToInventory(ShopItem item , InventoryController inventoryController)
     {
         GameObject newItem = Instantiate(itemPrefab, inventoryContainer);
         Image itemIcon = newItem.transform.Find("ItemIcon").GetComponent<Image>();
@@ -56,7 +56,26 @@ public class InventoryView : MonoBehaviour
         quantityText.text = item.quantity.ToString();
 
         displayedItems.Add(newItem);
-        newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item));
+        newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item , inventoryController));
+    }
+
+    public void RefreshInventoryUI(InventoryModel inventoryModel , InventoryController inventoryController)
+    {
+        // Clear previous UI
+        foreach (var displayedItem in displayedItems)
+        {
+            Destroy(displayedItem);
+        }
+        displayedItems.Clear();
+
+        // Re-add remaining items
+        foreach (var item in inventoryModel.GetAllItems())
+        {
+            AddItemToInventory(item , inventoryController);
+        }
+
+        // Update weight UI
+        UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight);
     }
 
     public void CloseInventoryPanel()

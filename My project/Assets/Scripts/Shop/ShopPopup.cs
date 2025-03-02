@@ -72,6 +72,8 @@ public class ShopPopup : MonoBehaviour
         popupPanel.SetActive(false);
     }
 
+   
+
     public void ClosePopup()
     {
         popupPanel.SetActive(false);

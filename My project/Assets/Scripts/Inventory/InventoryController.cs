@@ -13,6 +13,7 @@ public class InventoryController : MonoBehaviour
     {
         inventoryModel = new InventoryModel(50f);
         inventoryView.Initialize(GatherResources, CloseInventoryPanel);
+        inventoryModel.OnInventoryUpdated += () => inventoryView.RefreshInventoryUI(inventoryModel , this);
     }
 
     private void GatherResources()
@@ -35,7 +36,7 @@ public class InventoryController : MonoBehaviour
                 if (inventoryModel.CanAddItem(randomItem))
                 {
                     inventoryModel.AddItem(randomItem);
-                    inventoryView.AddItemToInventory(randomItem);
+                    inventoryView.AddItemToInventory(randomItem , this);
                     availableItems.Remove(randomItem);
                 }
             }
@@ -50,7 +51,7 @@ public class InventoryController : MonoBehaviour
                 if (inventoryModel.CanAddItem(randomItem))
                 {
                     inventoryModel.AddItem(randomItem);
-                    inventoryView.AddItemToInventory(randomItem);
+                    inventoryView.AddItemToInventory(randomItem , this);
                 }
                 else
                 {
@@ -63,6 +64,19 @@ public class InventoryController : MonoBehaviour
         }
 
         inventoryView.UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight);
+    }
+
+    public void RemoveItemFromInventory(ShopItem item, int quantity)
+    {
+        inventoryModel.RemoveItem(item, quantity);
+        inventoryView.RefreshInventoryUI(inventoryModel , this); // Update UI
+    }
+
+
+    public void ResetGame()
+    {
+        inventoryModel.ResetGame();
+        inventoryView.RefreshInventoryUI(inventoryModel, this);
     }
 
     private void CloseInventoryPanel()

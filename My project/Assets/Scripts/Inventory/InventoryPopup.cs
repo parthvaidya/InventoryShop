@@ -9,14 +9,16 @@ public class InventoryPopup : MonoBehaviour
     public static InventoryPopup Instance;
 
     [Header("UI References")]
-    public GameObject popupPanel;
-    public Image itemIcon;
-    public TextMeshProUGUI itemNameText, itemDescriptionText, itemDetailsText;
-    public TextMeshProUGUI quantityText, totalPriceText;
-    public Button addButton, removeButton, sellButton, closeButton;
+    [SerializeField] private GameObject popupPanel;
+    [SerializeField] private Image itemIcon;
+    [SerializeField] private TextMeshProUGUI itemNameText, itemDescriptionText, itemDetailsText;
+    [SerializeField] private TextMeshProUGUI quantityText, totalPriceText;
+    [SerializeField] private TextMeshProUGUI inventoryQuantityText, expectedEarningsText;
+    [SerializeField] private Button addButton, removeButton, sellButton, closeButton;
 
+    private InventoryController inventoryController;
     private ShopItem currentItem;
-    private int currentQuantity = 1;
+    private int currentQuantity;
 
     private void Awake()
     {
@@ -26,13 +28,16 @@ public class InventoryPopup : MonoBehaviour
         closeButton.onClick.AddListener(ClosePopup);
         addButton.onClick.AddListener(IncreaseQuantity);
         removeButton.onClick.AddListener(DecreaseQuantity);
-        sellButton.onClick.AddListener(SellItem);
+        //sellButton.onClick.AddListener(SellItem);
+
+        sellButton.onClick.AddListener(OpenSellConfirmation);
     }
 
-    public void ShowItemPopup(ShopItem item)
+    public void ShowItemPopup(ShopItem item, InventoryController inventoryController)
     {
+        this.inventoryController = inventoryController;
         currentItem = item;
-        currentQuantity = 1;
+        currentQuantity = 1; // Start at 1 instead of full quantity
         UpdatePopupUI();
 
         popupPanel.SetActive(true);
@@ -45,13 +50,15 @@ public class InventoryPopup : MonoBehaviour
         itemDescriptionText.text = $"Description: {currentItem.description}";
         itemDetailsText.text = $"Type: {currentItem.itemType}\n\nRarity: {currentItem.rarity}\n\nWeight: {currentItem.weight}\n\nSell Price: {currentItem.sellPrice}G";
 
-        quantityText.text = $"Quantity: {currentItem.quantity}";
-        totalPriceText.text = $"Total: {currentItem.sellPrice * currentQuantity}G";
+        quantityText.text = $"Quantity: {currentItem.quantity}"; // Show total owned
+        inventoryQuantityText.text = $"{currentQuantity}"; // Show how many are being sold
+        expectedEarningsText.text = $"Earnings: {currentItem.sellPrice * currentQuantity}G"; // Update expected earnings
+        totalPriceText.text = $"Total: {currentItem.sellPrice * currentQuantity}G"; // Update total price
     }
 
     public void IncreaseQuantity()
     {
-        if (currentQuantity < currentItem.quantity)
+        if (currentQuantity < currentItem.quantity) // Cannot exceed available quantity
         {
             currentQuantity++;
             UpdatePopupUI();
@@ -60,7 +67,7 @@ public class InventoryPopup : MonoBehaviour
 
     public void DecreaseQuantity()
     {
-        if (currentQuantity > 1)
+        if (currentQuantity > 1) // Prevent going below 1
         {
             currentQuantity--;
             UpdatePopupUI();
@@ -69,13 +76,82 @@ public class InventoryPopup : MonoBehaviour
 
     public void SellItem()
     {
-        int totalSellPrice = currentItem.sellPrice * currentQuantity;
-        Debug.Log($"Sold {currentQuantity}x {currentItem.itemName} for {totalSellPrice}G");
-        popupPanel.SetActive(false);
+        if (currentItem != null && currentQuantity > 0)
+        {
+            int totalSellPrice = currentItem.sellPrice * currentQuantity;
+
+            // Increase currency
+            CurrencyManager.Instance.AddCurrency(totalSellPrice);
+
+            if (inventoryController == null)
+            {
+                Debug.LogError("InventoryController is null! Make sure it's properly assigned.");
+                return;
+            }
+
+            //currentItem.quantity = Mathf.Max(0, currentItem.quantity - currentQuantity);
+            //inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
+
+            // Reduce quantity in inventory
+            currentItem.quantity -= currentQuantity;
+            if (currentItem.quantity <= 0)
+            {
+                inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
+            }
+
+            Debug.Log($"Sold {currentQuantity}x {currentItem.itemName} for {totalSellPrice}G");
+
+            // Reset quantity to 1 and update UI
+            currentQuantity = 1;
+            UpdatePopupUI();
+        }
     }
 
+
+    private void OpenSellConfirmation()
+    {
+        if (ConfirmationPopup.Instance == null)
+        {
+            Debug.LogError("ConfirmationPopup Instance is null! Ensure the popup exists in the scene.");
+            return;
+        }
+
+        ConfirmationPopup.Instance.ShowConfirmation(
+            $"Do you want to sell {currentQuantity}x {currentItem.itemName} for {currentItem.sellPrice * currentQuantity}G?",
+            ConfirmSell
+        );
+    }
+
+    private void ConfirmSell()
+    {
+        if (currentItem != null && currentQuantity > 0)
+        {
+            int totalSellPrice = currentItem.sellPrice * currentQuantity;
+            CurrencyManager.Instance.AddCurrency(totalSellPrice);
+
+            if (inventoryController == null)
+            {
+                Debug.LogError("InventoryController is null!");
+                return;
+            }
+
+            currentItem.quantity -= currentQuantity;
+            if (currentItem.quantity <= 0)
+            {
+                inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
+            }
+
+            Debug.Log($"Sold {currentQuantity}x {currentItem.itemName} for {totalSellPrice}G");
+
+            currentQuantity = 1;
+            UpdatePopupUI();
+        }
+    }
     public void ClosePopup()
     {
         popupPanel.SetActive(false);
     }
+
+
+
 }
