@@ -14,6 +14,7 @@ public class ShopItemCollection : ScriptableObject
 [System.Serializable]
 public class ShopItem
 {
+
     public string itemName;
     public string description;
     public ItemType itemType;

@@ -59,19 +59,19 @@ public class InventoryView : MonoBehaviour
         newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item, inventoryController, this));
     }
 
-    public void RefreshInventoryUI(InventoryModel inventoryModel , InventoryController inventoryController)
+    public void RefreshInventoryUI(InventoryModel inventoryModel, InventoryController inventoryController)
     {
-        // Clear previous UI
+        // 
         foreach (var displayedItem in displayedItems)
         {
             Destroy(displayedItem);
         }
         displayedItems.Clear();
 
-        // Re-add remaining items
+        // 
         foreach (var item in inventoryModel.GetAllItems())
         {
-            AddItemToInventory(item , inventoryController);
+            AddItemToInventory(item, inventoryController);
         }
 
         // Update weight UI
@@ -79,7 +79,6 @@ public class InventoryView : MonoBehaviour
 
         Debug.Log($"Refreshing inventory UI with {inventoryModel.ItemCount} items");
     }
-
     public void CloseInventoryPanel()
     {
         inventoryPanel.SetActive(false);

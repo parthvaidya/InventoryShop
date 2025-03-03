@@ -41,7 +41,7 @@ public class InventoryController : MonoBehaviour
                 if (inventoryModel.CanAddItem(randomItem))
                 {
                     inventoryModel.AddItem(randomItem);
-                    inventoryView.AddItemToInventory(randomItem , this);
+                    
                     availableItems.Remove(randomItem);
                 }
             }
@@ -56,7 +56,7 @@ public class InventoryController : MonoBehaviour
                 if (inventoryModel.CanAddItem(randomItem))
                 {
                     inventoryModel.AddItem(randomItem);
-                    inventoryView.AddItemToInventory(randomItem , this);
+                   
                 }
                 else
                 {
