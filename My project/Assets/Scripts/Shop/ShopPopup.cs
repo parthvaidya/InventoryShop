@@ -59,7 +59,7 @@ public class ShopPopup : MonoBehaviour
         totalPriceText.text = $"Total: {currentItem.buyPrice * currentQuantity}G";
 
         int playerMoney = CurrencyManager.Instance.GetCurrency();
-        playerMoneyText.text = $"Money: {playerMoney}G";
+        playerMoneyText.text = $"Coins: {playerMoney}";
         shopQuantityText.text = $"{currentQuantity}";
     }
 
@@ -87,6 +87,8 @@ public class ShopPopup : MonoBehaviour
     {
         int totalCost = currentItem.buyPrice * currentQuantity;
         int playerMoney = CurrencyManager.Instance.GetCurrency();
+        int purchasedQuantity = currentQuantity;
+        currentItem.quantity -= purchasedQuantity;
 
         if (playerMoney < totalCost)
         {
@@ -109,14 +111,15 @@ public class ShopPopup : MonoBehaviour
         //new
 
         // Reset quantity and update UI
-        currentQuantity = 1;
+        
        
         inventoryController.RefreshInventoryUI();
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
         // Refresh inventory and weight UI
         inventoryController.InventoryModel.NotifyInventoryUpdated();
         UpdatePopupUI();
-
+        Canvas.ForceUpdateCanvases();
+        currentQuantity = 1;
 
         Debug.Log($"Added {currentQuantity}x {currentItem.itemName} to inventory.");
         Debug.Log($"Inventory now has {inventoryController.MaxWeight - inventoryController.CurrentWeight} KG available.");

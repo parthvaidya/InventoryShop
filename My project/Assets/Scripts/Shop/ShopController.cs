@@ -30,4 +30,14 @@ public class ShopController : MonoBehaviour
         List<ShopItem> filteredItems = ShopServiceLocator.Instance.GetItemsByCategory(itemType);
         shopView.DisplayItems(filteredItems, itemType);
     }
+
+
+    public void ResetGame()
+    {
+        Debug.Log("Resetting shop...");
+        shopModel.ResetGame();
+        UpdateShopView(ItemType.All); // Refresh the UI
+    }
+
+
 }

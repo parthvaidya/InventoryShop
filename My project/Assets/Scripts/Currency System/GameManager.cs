@@ -6,15 +6,29 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-     private InventoryController inventoryController;
-     private CurrencyManager currencyManager;
+    [SerializeField] private InventoryController inventoryController;
+    [SerializeField] private CurrencyManager currencyManager;
+    [SerializeField] private ShopController shopController;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject); // Keep GameManager persistent
         }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    public void SetDependencies(InventoryController inventory, CurrencyManager currency , ShopController shopController)
+    {
+        this.inventoryController = inventory;
+        this.currencyManager = currency;
+        this.shopController = shopController;
     }
 
     public void EndGame()
@@ -22,5 +36,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over! Resetting inventory and currency...");
         currencyManager.ResetGame();
         inventoryController.ResetGame();
+        shopController.ResetGame();
+        
     }
 }

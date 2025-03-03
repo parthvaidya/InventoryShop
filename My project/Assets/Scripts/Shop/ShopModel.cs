@@ -19,4 +19,12 @@ public class ShopModel
             ? ShopServiceLocator.Instance.GetItemsByCategory(type)
             : ShopServiceLocator.Instance.GetAllItems();
     }
+
+
+    public void ResetGame()
+    {
+        Debug.Log("Resetting shop items...");
+        items.Clear(); // Clear the shop's current items
+        items = ShopServiceLocator.Instance.GetAllItems(); // Repopulate shop items
+    }
 }

@@ -137,6 +137,7 @@ public class InventoryPopup : MonoBehaviour
 
 
             UpdatePopupUI();
+            Canvas.ForceUpdateCanvases();
         }
     }
     public void ClosePopup()

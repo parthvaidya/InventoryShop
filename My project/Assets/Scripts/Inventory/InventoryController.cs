@@ -6,6 +6,7 @@ public class InventoryController : MonoBehaviour
 {
     [SerializeField] private InventoryView inventoryView;
     [SerializeField] private ShopItemCollection itemCollection;
+    [SerializeField] private GameObject warningPanel;
 
     private InventoryModel inventoryModel;
 
@@ -19,6 +20,7 @@ public class InventoryController : MonoBehaviour
         inventoryModel = new InventoryModel(200f);
         inventoryView.Initialize(GatherResources, CloseInventoryPanel);
         inventoryModel.OnInventoryUpdated += () => inventoryView.RefreshInventoryUI(inventoryModel , this);
+        warningPanel.SetActive(false);
     }
 
     private void GatherResources()
@@ -41,7 +43,7 @@ public class InventoryController : MonoBehaviour
                 if (inventoryModel.CanAddItem(randomItem))
                 {
                     inventoryModel.AddItem(randomItem);
-                    inventoryView.AddItemToInventory(randomItem , this);
+                    //inventoryView.AddItemToInventory(randomItem , this);
                     availableItems.Remove(randomItem);
                 }
             }
@@ -56,7 +58,7 @@ public class InventoryController : MonoBehaviour
                 if (inventoryModel.CanAddItem(randomItem))
                 {
                     inventoryModel.AddItem(randomItem);
-                    inventoryView.AddItemToInventory(randomItem , this);
+                    //inventoryView.AddItemToInventory(randomItem , this);
                 }
                 else
                 {
@@ -101,12 +103,18 @@ public class InventoryController : MonoBehaviour
         }
         else
         {
+            StartCoroutine(ShowWarningPanel());
             Debug.LogWarning("Not enough inventory space!");
         }
 
         RefreshInventoryUI();
     }
-
+    private IEnumerator ShowWarningPanel()
+    {
+        warningPanel.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        warningPanel.SetActive(false);
+    }
     private void CloseInventoryPanel()
     {
         inventoryView.CloseInventoryPanel();
