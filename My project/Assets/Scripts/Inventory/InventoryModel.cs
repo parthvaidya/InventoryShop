@@ -21,37 +21,90 @@ public class InventoryModel
         CurrentWeight = 0f;
         items = new List<ShopItem>();
     }
-
-    public bool CanAddItem(ShopItem item)
+    public bool CanAddItem(ShopItem item, int quantity = 1)
     {
-        return (CurrentWeight + item.weight) <= MaxWeight;
+        return (CurrentWeight + item.weight * quantity) <= MaxWeight;
     }
 
-    public void AddItem(ShopItem item)
+    //public bool CanAddItem(ShopItem item)
+    //{
+    //    return (CurrentWeight + item.weight) <= MaxWeight;
+    //}
+
+    //public void AddItem(ShopItem item)
+    //{
+    //    if (CanAddItem(item))
+    //    {
+    //        items.Add(item);
+    //        CurrentWeight = Mathf.Max(0, CurrentWeight + item.weight);
+    //        OnInventoryUpdated?.Invoke();
+    //    }
+    //}
+
+    //public void RemoveItem(ShopItem item, int quantity)
+    //{
+    //    ShopItem existingItem = items.Find(i => i == item);
+    //    if (existingItem != null)
+    //    {
+    //        int actualQuantityToRemove = Mathf.Min(existingItem.quantity, quantity); // Prevent negative values
+    //        existingItem.quantity -= actualQuantityToRemove;
+    //        //CurrentWeight -= item.weight * actualQuantityToRemove;
+    //        CurrentWeight = Mathf.Max(0, CurrentWeight - item.weight * actualQuantityToRemove);
+    //        if (existingItem.quantity <= 0)
+    //        {
+    //            items.Remove(existingItem);
+    //        }
+
+    //        OnInventoryUpdated?.Invoke(); // Notify UI to refresh
+    //    }
+    //}
+
+    public void AddItem(ShopItem item, int quantity = 1)
     {
-        if (CanAddItem(item))
+        ShopItem existingItem = items.Find(i => i.itemName == item.itemName);
+
+        if (existingItem != null)
         {
-            items.Add(item);
-            CurrentWeight = Mathf.Max(0, CurrentWeight + item.weight);
-            OnInventoryUpdated?.Invoke();
+            existingItem.quantity += quantity;
         }
+        else
+        {
+            ShopItem newItem = new ShopItem
+            {
+                itemName = item.itemName,
+                description = item.description,
+                itemType = item.itemType,
+                rarity = item.rarity,
+                quantity = quantity,
+                weight = item.weight,
+                buyPrice = item.buyPrice,
+                sellPrice = item.sellPrice,
+                icon = item.icon
+            };
+
+            items.Add(newItem);
+        }
+
+        CurrentWeight += item.weight * quantity;
+        OnInventoryUpdated?.Invoke();
     }
 
     public void RemoveItem(ShopItem item, int quantity)
     {
-        ShopItem existingItem = items.Find(i => i == item);
+        ShopItem existingItem = items.Find(i => i.itemName == item.itemName);
+
         if (existingItem != null)
         {
-            int actualQuantityToRemove = Mathf.Min(existingItem.quantity, quantity); // Prevent negative values
+            int actualQuantityToRemove = Mathf.Min(existingItem.quantity, quantity);
             existingItem.quantity -= actualQuantityToRemove;
-            //CurrentWeight -= item.weight * actualQuantityToRemove;
             CurrentWeight = Mathf.Max(0, CurrentWeight - item.weight * actualQuantityToRemove);
+
             if (existingItem.quantity <= 0)
             {
                 items.Remove(existingItem);
             }
 
-            OnInventoryUpdated?.Invoke(); // Notify UI to refresh
+            OnInventoryUpdated?.Invoke();
         }
     }
 

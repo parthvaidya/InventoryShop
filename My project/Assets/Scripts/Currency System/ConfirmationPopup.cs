@@ -14,7 +14,7 @@ public class ConfirmationPopup : MonoBehaviour
     [SerializeField] private Button yesButton, noButton;
     [SerializeField] private TextMeshProUGUI soldMessageText;
     [SerializeField] private GameObject invenryPopUp;
-    //public Image tickImage; // The tick next to "Yes"
+    
 
     private System.Action onConfirm;
 
@@ -79,7 +79,7 @@ public class ConfirmationPopup : MonoBehaviour
 
     private IEnumerator HideSoldMessageAfterDelay()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         soldMessageText.gameObject.SetActive(false); // Hide message
     }
 

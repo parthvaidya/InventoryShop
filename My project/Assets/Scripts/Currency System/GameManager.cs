@@ -6,8 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private InventoryController inventoryController;
-    [SerializeField] private CurrencyManager currencyManager;
+     private InventoryController inventoryController;
+     private CurrencyManager currencyManager;
 
     private void Awake()
     {

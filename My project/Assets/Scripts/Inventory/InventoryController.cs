@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
-    [SerializeField]     private InventoryView inventoryView;
+    [SerializeField] private InventoryView inventoryView;
     [SerializeField] private ShopItemCollection itemCollection;
 
     private InventoryModel inventoryModel;
@@ -86,6 +86,23 @@ public class InventoryController : MonoBehaviour
     {
         inventoryModel.ResetGame();
         inventoryView.RefreshInventoryUI(inventoryModel, this);
+    }
+
+    public void AddItemToInventory(ShopItem item, int quantity)
+    {
+        if (item == null) return;
+
+        if (inventoryModel.CanAddItem(item, quantity))
+        {
+            inventoryModel.AddItem(item, quantity);
+            Debug.Log($"Added {quantity}x {item.itemName} to inventory.");
+        }
+        else
+        {
+            Debug.LogWarning("Not enough inventory space!");
+        }
+
+        RefreshInventoryUI();
     }
 
     private void CloseInventoryPanel()

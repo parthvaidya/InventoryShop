@@ -11,6 +11,8 @@ public class ShopView : MonoBehaviour
    [SerializeField] private GameObject itemPrefab; // Assign the prefab in the Inspector
     private TextMeshProUGUI itemDetailsText;
     [SerializeField] private Image itemIcon;
+    [SerializeField] private InventoryController inventoryController;
+    [SerializeField] private InventoryView inventoryView;
 
     public Dictionary<ItemType, Transform> categoryContainers = new Dictionary<ItemType, Transform>();
 
@@ -82,6 +84,6 @@ public class ShopView : MonoBehaviour
             return;
         }
 
-        ShopPopup.Instance.ShowItemPopup(item);
+        ShopPopup.Instance.ShowItemPopup(item, inventoryController, inventoryView);
     }
 }

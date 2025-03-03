@@ -12,8 +12,11 @@ public class ShopPopup : MonoBehaviour
     [SerializeField] private GameObject popupPanel;
     [SerializeField] private Image itemIcon;
     [SerializeField] private TextMeshProUGUI itemNameText, itemDescriptionText, itemDetailsText;
-    [SerializeField] private TextMeshProUGUI quantityText, totalPriceText;
+    [SerializeField] private TextMeshProUGUI quantityText, totalPriceText,  playerMoneyText , shopQuantityText;
     [SerializeField] private Button addButton, removeButton, buyButton, closeButton;
+
+    private InventoryController inventoryController;
+    private InventoryView inventoryView;
 
     private ShopItem currentItem; // Update to use ShopItem
     private int currentQuantity = 1;
@@ -30,8 +33,12 @@ public class ShopPopup : MonoBehaviour
         buyButton.onClick.AddListener(BuyItem);
     }
 
-    public void ShowItemPopup(ShopItem item) // Update to accept ShopItem
+    public void ShowItemPopup(ShopItem item, InventoryController inventoryController, InventoryView inventoryView) // Update to accept ShopItem
     {
+
+        Debug.Log("ShowItemPopup called with: " + (inventoryController != null ? "valid controller" : "NULL controller"));
+        this.inventoryController = inventoryController;
+        this.inventoryView = inventoryView;
         currentItem = item;
         currentQuantity = 1;
         UpdatePopupUI();
@@ -48,12 +55,19 @@ public class ShopPopup : MonoBehaviour
 
         quantityText.text = $"Quantity: {currentItem.quantity}";
         totalPriceText.text = $"Total: {currentItem.buyPrice * currentQuantity}G";
+
+        int playerMoney = CurrencyManager.Instance.GetCurrency();
+        playerMoneyText.text = $"Money: {playerMoney}G";
+        shopQuantityText.text = $"{currentQuantity}";
     }
 
     public void IncreaseQuantity()
     {
-        currentQuantity++;
-        UpdatePopupUI();
+        if (currentQuantity < currentItem.quantity)
+        {
+            currentQuantity++;
+            UpdatePopupUI();
+        }
     }
 
     public void DecreaseQuantity()
@@ -65,14 +79,50 @@ public class ShopPopup : MonoBehaviour
         }
     }
 
+    //public void BuyItem()
+    //{
+    //    int totalCost = currentItem.buyPrice * currentQuantity;
+    //    Debug.Log($"Bought {currentQuantity}x {currentItem.itemName} for {totalCost}G");
+    //    popupPanel.SetActive(false);
+    //}
+
     public void BuyItem()
     {
         int totalCost = currentItem.buyPrice * currentQuantity;
+        int playerMoney = CurrencyManager.Instance.GetCurrency();
+
+        if (playerMoney < totalCost)
+        {
+            Debug.Log("Not enough money to buy this item!");
+            return;
+        }
+
+        // Deduct the total cost
+        CurrencyManager.Instance.SpendCurrency(totalCost);
+        //UpdatePopupUI();
+        if (inventoryController == null)
+        {
+            Debug.LogError("InventoryController is null!");
+            return;
+        }
+
+        // Add item to inventory
+        inventoryController.AddItemToInventory(currentItem, currentQuantity);
+
         Debug.Log($"Bought {currentQuantity}x {currentItem.itemName} for {totalCost}G");
-        popupPanel.SetActive(false);
+
+        // Reset quantity and update UI
+        currentQuantity = 1;
+        UpdatePopupUI();
+
+        // Refresh inventory and weight UI
+        inventoryController.RefreshInventoryUI();
+        inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
+
+        ClosePopup();
     }
 
-   
+
 
     public void ClosePopup()
     {
