@@ -55,13 +55,14 @@ public class ConfirmationPopup : MonoBehaviour
         messageText.text = message;
         onConfirm = confirmAction;
         popupPanel.SetActive(true);
-        ShowSoldMessage();
+       
         //tickImage.gameObject.SetActive(true); // Show tick next to "Yes"
     }
 
     private void Confirm()
     {
         onConfirm?.Invoke();
+        ShowSoldMessage();
         ClosePopup();
     }
 

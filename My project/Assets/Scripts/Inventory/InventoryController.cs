@@ -9,6 +9,8 @@ public class InventoryController : MonoBehaviour
 
     private InventoryModel inventoryModel;
 
+    public InventoryModel InventoryModel => inventoryModel;
+
     public float CurrentWeight => inventoryModel.CurrentWeight;
     public float MaxWeight => inventoryModel.MaxWeight;
 
@@ -95,7 +97,7 @@ public class InventoryController : MonoBehaviour
         if (inventoryModel.CanAddItem(item, quantity))
         {
             inventoryModel.AddItem(item, quantity);
-            Debug.Log($"Added {quantity}x {item.itemName} to inventory.");
+            inventoryModel.NotifyInventoryUpdated();
         }
         else
         {

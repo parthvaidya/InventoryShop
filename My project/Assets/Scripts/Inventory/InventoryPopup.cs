@@ -77,39 +77,7 @@ public class InventoryPopup : MonoBehaviour
         }
     }
 
-    //public void SellItem()
-    //{
-    //    if (currentItem != null && currentQuantity > 0)
-    //    {
-    //        int totalSellPrice = currentItem.sellPrice * currentQuantity;
-
-    //        // Increase currency
-    //        CurrencyManager.Instance.AddCurrency(totalSellPrice);
-
-    //        if (inventoryController == null)
-    //        {
-    //            Debug.LogError("InventoryController is null! Make sure it's properly assigned.");
-    //            return;
-    //        }
-
-    //        //currentItem.quantity = Mathf.Max(0, currentItem.quantity - currentQuantity);
-    //        //inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
-
-    //        // Reduce quantity in inventory
-    //        currentItem.quantity -= currentQuantity;
-    //        if (currentItem.quantity <= 0)
-    //        {
-    //            inventoryController.RemoveItemFromInventory(currentItem, currentQuantity);
-    //        }
-
-    //        Debug.Log($"Sold {currentQuantity}x {currentItem.itemName} for {totalSellPrice}G");
-
-    //        // Reset quantity to 1 and update UI
-    //        currentQuantity = 1;
-    //        UpdatePopupUI();
-    //    }
-    //}
-
+  
 
     private void OpenSellConfirmation()
     {

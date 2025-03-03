@@ -79,12 +79,7 @@ public class ShopPopup : MonoBehaviour
         }
     }
 
-    //public void BuyItem()
-    //{
-    //    int totalCost = currentItem.buyPrice * currentQuantity;
-    //    Debug.Log($"Bought {currentQuantity}x {currentItem.itemName} for {totalCost}G");
-    //    popupPanel.SetActive(false);
-    //}
+    
 
     public void BuyItem()
     {
@@ -105,21 +100,29 @@ public class ShopPopup : MonoBehaviour
             Debug.LogError("InventoryController is null!");
             return;
         }
-
+        currentItem.quantity -= currentQuantity;
         // Add item to inventory
         inventoryController.AddItemToInventory(currentItem, currentQuantity);
 
-        Debug.Log($"Bought {currentQuantity}x {currentItem.itemName} for {totalCost}G");
+        //new
 
         // Reset quantity and update UI
         currentQuantity = 1;
-        UpdatePopupUI();
-
-        // Refresh inventory and weight UI
+       
         inventoryController.RefreshInventoryUI();
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
+        // Refresh inventory and weight UI
+        inventoryController.InventoryModel.NotifyInventoryUpdated();
+        UpdatePopupUI();
 
-        ClosePopup();
+
+        Debug.Log($"Added {currentQuantity}x {currentItem.itemName} to inventory.");
+        Debug.Log($"Inventory now has {inventoryController.MaxWeight - inventoryController.CurrentWeight} KG available.");
+
+        if (currentItem.quantity <= 0) //new
+        {
+            ClosePopup();
+        }
     }
 
 
@@ -127,5 +130,9 @@ public class ShopPopup : MonoBehaviour
     public void ClosePopup()
     {
         popupPanel.SetActive(false);
+        
+        // Refresh inventory and weight UI
+        inventoryController.RefreshInventoryUI();
+        inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
     }
 }

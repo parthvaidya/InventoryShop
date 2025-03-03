@@ -26,38 +26,7 @@ public class InventoryModel
         return (CurrentWeight + item.weight * quantity) <= MaxWeight;
     }
 
-    //public bool CanAddItem(ShopItem item)
-    //{
-    //    return (CurrentWeight + item.weight) <= MaxWeight;
-    //}
-
-    //public void AddItem(ShopItem item)
-    //{
-    //    if (CanAddItem(item))
-    //    {
-    //        items.Add(item);
-    //        CurrentWeight = Mathf.Max(0, CurrentWeight + item.weight);
-    //        OnInventoryUpdated?.Invoke();
-    //    }
-    //}
-
-    //public void RemoveItem(ShopItem item, int quantity)
-    //{
-    //    ShopItem existingItem = items.Find(i => i == item);
-    //    if (existingItem != null)
-    //    {
-    //        int actualQuantityToRemove = Mathf.Min(existingItem.quantity, quantity); // Prevent negative values
-    //        existingItem.quantity -= actualQuantityToRemove;
-    //        //CurrentWeight -= item.weight * actualQuantityToRemove;
-    //        CurrentWeight = Mathf.Max(0, CurrentWeight - item.weight * actualQuantityToRemove);
-    //        if (existingItem.quantity <= 0)
-    //        {
-    //            items.Remove(existingItem);
-    //        }
-
-    //        OnInventoryUpdated?.Invoke(); // Notify UI to refresh
-    //    }
-    //}
+    
 
     public void AddItem(ShopItem item, int quantity = 1)
     {
@@ -83,10 +52,13 @@ public class InventoryModel
             };
 
             items.Add(newItem);
+            //items.Add(item);
+            //item.quantity = quantity;
         }
 
         CurrentWeight += item.weight * quantity;
         OnInventoryUpdated?.Invoke();
+        Debug.Log($"Inventory updated! Items count: {items.Count}");
     }
 
     public void RemoveItem(ShopItem item, int quantity)
@@ -112,7 +84,10 @@ public class InventoryModel
     {
         return new List<ShopItem>(items);
     }
-
+    public void NotifyInventoryUpdated()
+    {
+        OnInventoryUpdated?.Invoke();
+    }
     public void ResetGame()
     {
         items.Clear();
