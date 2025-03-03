@@ -57,7 +57,6 @@ public class InventoryModel
         }
 
         CurrentWeight += item.weight * quantity;
-        NotifyInventoryUpdated();
         OnInventoryUpdated?.Invoke();
         Debug.Log($"Inventory updated! Items count: {items.Count}");
     }

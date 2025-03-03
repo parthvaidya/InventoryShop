@@ -35,7 +35,7 @@ public class InventoryPopup : MonoBehaviour
         sellButton.onClick.AddListener(OpenSellConfirmation);
     }
 
-    public void ShowItemPopup(ShopItem item, InventoryController inventoryController, InventoryView inventoryView)
+    public void ShowItemPopup(ShopItem item, InventoryController inventoryController , InventoryView inventoryView)
     {
         this.inventoryController = inventoryController;
         this.inventoryView = inventoryView;
@@ -77,7 +77,7 @@ public class InventoryPopup : MonoBehaviour
         }
     }
 
-
+  
 
     private void OpenSellConfirmation()
     {
@@ -127,8 +127,8 @@ public class InventoryPopup : MonoBehaviour
 
             currentQuantity = 1;
             Debug.Log($"Attempting to sell {currentQuantity}x {currentItem?.itemName ?? "NULL"}");
-
-
+            
+            
             Debug.Log($"InventoryController is {inventoryController.CurrentWeight} , {inventoryController.MaxWeight}");
             inventoryController.RefreshInventoryUI();
 
@@ -150,7 +150,3 @@ public class InventoryPopup : MonoBehaviour
 
 
 }
-
-
-
-

@@ -6,14 +6,13 @@ using UnityEngine.UI;
 
 public class ShopPopup : MonoBehaviour
 {
-
+    
     public static ShopPopup Instance;
 
     [SerializeField] private GameObject popupPanel;
-    [SerializeField] private GameObject warningPanel;
     [SerializeField] private Image itemIcon;
     [SerializeField] private TextMeshProUGUI itemNameText, itemDescriptionText, itemDetailsText;
-    [SerializeField] private TextMeshProUGUI quantityText, totalPriceText, playerMoneyText, shopQuantityText;
+    [SerializeField] private TextMeshProUGUI quantityText, totalPriceText,  playerMoneyText , shopQuantityText;
     [SerializeField] private Button addButton, removeButton, buyButton, closeButton;
 
     private InventoryController inventoryController;
@@ -26,7 +25,6 @@ public class ShopPopup : MonoBehaviour
     {
         Instance = this;
         popupPanel.SetActive(false);
-        warningPanel.SetActive(false);
 
         closeButton.onClick.AddListener(ClosePopup);
 
@@ -81,7 +79,7 @@ public class ShopPopup : MonoBehaviour
         }
     }
 
-
+    
 
     public void BuyItem()
     {
@@ -90,7 +88,7 @@ public class ShopPopup : MonoBehaviour
 
         if (playerMoney < totalCost)
         {
-            StartCoroutine(ShowWarningPanel());
+            Debug.Log("Not enough money to buy this item!");
             return;
         }
 
@@ -110,11 +108,11 @@ public class ShopPopup : MonoBehaviour
 
         // Reset quantity and update UI
         currentQuantity = 1;
-        inventoryController.InventoryModel.NotifyInventoryUpdated();
+       
         inventoryController.RefreshInventoryUI();
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
         // Refresh inventory and weight UI
-
+        inventoryController.InventoryModel.NotifyInventoryUpdated();
         UpdatePopupUI();
 
 
@@ -127,18 +125,12 @@ public class ShopPopup : MonoBehaviour
         }
     }
 
-    private IEnumerator ShowWarningPanel()
-    {
-        warningPanel.SetActive(true);
-        yield return new WaitForSeconds(2f);
-        warningPanel.SetActive(false);
-    }
 
 
     public void ClosePopup()
     {
         popupPanel.SetActive(false);
-
+        
         // Refresh inventory and weight UI
         inventoryController.RefreshInventoryUI();
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
