@@ -7,16 +7,19 @@ using UnityEngine.UI;
 
 public class MainMenuButton : MonoBehaviour
 {
+    //add buttons fields
     [SerializeField] private Button startButton;
     [SerializeField] private Button quitButton;
 
     private void Start()
     {
+        //add listener to the games
         startButton.onClick.AddListener(startGame);
         quitButton.onClick.AddListener(Quit);
     }
 
 
+    //start the game
     private void startGame()
     {
         SoundManager.Instance.Play(Sounds.ButtonClick);
@@ -24,6 +27,7 @@ public class MainMenuButton : MonoBehaviour
     }
 
 
+    //quit the game
     private void Quit()
     {
         SoundManager.Instance.Play(Sounds.ButtonClick);

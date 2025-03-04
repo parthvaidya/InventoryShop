@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    //create a singleton
     public static GameManager Instance { get; private set; }
 
     [SerializeField] private InventoryController inventoryController;
@@ -24,6 +25,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //set the dependencies
     public void SetDependencies(InventoryController inventory, CurrencyManager currency , ShopController shopController)
     {
         this.inventoryController = inventory;
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
         this.shopController = shopController;
     }
 
+    // endgame to reset everything after the session
     public void EndGame()
     {
         Debug.Log("Game Over! Resetting inventory and currency...");

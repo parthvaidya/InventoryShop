@@ -6,8 +6,10 @@ using UnityEngine.UI;
 
 public class ConfirmationPopup : MonoBehaviour
 {
+    //create instance
     public static ConfirmationPopup Instance;
 
+    //objects to add
     [Header("UI References")]
     [SerializeField] private GameObject popupPanel;
     [SerializeField] private TextMeshProUGUI messageText;
@@ -40,7 +42,7 @@ public class ConfirmationPopup : MonoBehaviour
             Debug.LogError("ConfirmationPopup: popupPanel is not assigned in the Inspector!");
         }
 
-        
+        //set active false initially
         popupPanel.SetActive(false);
         itemSoldPanel.SetActive(false);
 
@@ -53,15 +55,17 @@ public class ConfirmationPopup : MonoBehaviour
         }
     }
 
+    //show confirmation message
     public void ShowConfirmation(string message, System.Action confirmAction)
     {
         messageText.text = message;
         onConfirm = confirmAction;
         popupPanel.SetActive(true);
        
-        //tickImage.gameObject.SetActive(true); // Show tick next to "Yes"
+        
     }
 
+    //confirm the message
     private void Confirm()
     {
         SoundManager.Instance.Play(Sounds.ClickItem);
@@ -70,6 +74,7 @@ public class ConfirmationPopup : MonoBehaviour
         ClosePopup();
     }
 
+    //show the sold popup 
     private void ShowSoldMessage()
     {
         SoundManager.Instance.Play(Sounds.PopupMusic);
@@ -84,13 +89,15 @@ public class ConfirmationPopup : MonoBehaviour
         }
     }
 
+    //delay using coroutine
     private IEnumerator HideSoldPanelAfterDelay()
     {
         yield return new WaitForSeconds(1f);
         itemSoldPanel.SetActive(false);
     }
 
-    public void ClosePopup()
+    //close the popup panel
+    private void ClosePopup()
     {
         SoundManager.Instance.Play(Sounds.ClickItem);
         popupPanel.SetActive(false);

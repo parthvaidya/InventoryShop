@@ -6,7 +6,7 @@ public class ShopServiceLocator : MonoBehaviour
 {
    
 
-    public static ShopServiceLocator Instance { get; private set; }
+    public static ShopServiceLocator Instance { get; private set; } //create singleton
 
     [SerializeField] private ShopItemCollection itemCollection; // Single asset containing multiple items
 
@@ -25,6 +25,7 @@ public class ShopServiceLocator : MonoBehaviour
         }
     }
 
+    //load all items
     private void LoadAllItems()
     {
         if (itemCollection != null)
@@ -33,9 +34,10 @@ public class ShopServiceLocator : MonoBehaviour
         }
     }
 
+    //fetch items by category
     public List<ShopItem> GetItemsByCategory(ItemType category)
     {
-        Debug.Log($"Fetching items for category: {category}");
+        //Debug.Log($"Fetching items for category: {category}");
 
         if (category == ItemType.All)
         {
@@ -47,6 +49,6 @@ public class ShopServiceLocator : MonoBehaviour
 
     public List<ShopItem> GetAllItems()
     {
-        return allItems;
+        return allItems; //return all items found in the asset
     }
 }

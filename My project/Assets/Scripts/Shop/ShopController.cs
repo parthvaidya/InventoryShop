@@ -6,16 +6,18 @@ using UnityEngine.UI;
 public class ShopController : MonoBehaviour
 {
     
-
+    
+    //connect the view and model
     private ShopModel shopModel;
     public ShopView shopView;
 
-    public Button allButton, consumablesButton, materialsButton, treasuresButton, weaponsButton;
+    [SerializeField] private Button allButton, consumablesButton, materialsButton, treasuresButton, weaponsButton;
 
     private void Start()
     {
         shopModel = new ShopModel();
 
+        //bind buttons at start
         allButton.onClick.AddListener(() => UpdateShopView(ItemType.All));
         consumablesButton.onClick.AddListener(() => UpdateShopView(ItemType.Consumables));
         materialsButton.onClick.AddListener(() => UpdateShopView(ItemType.Materials));
@@ -25,6 +27,7 @@ public class ShopController : MonoBehaviour
         UpdateShopView(ItemType.Consumables);
     }
 
+    //update the shop view by displaying items
     public void UpdateShopView(ItemType itemType)
     {
         List<ShopItem> filteredItems = ShopServiceLocator.Instance.GetItemsByCategory(itemType);
@@ -32,9 +35,10 @@ public class ShopController : MonoBehaviour
     }
 
 
+    //Reset the game
     public void ResetGame()
     {
-        Debug.Log("Resetting shop...");
+        //Debug.Log("Resetting shop...");
         shopModel.ResetGame();
         UpdateShopView(ItemType.All); // Refresh the UI
     }

@@ -8,16 +8,17 @@ public class ShopView : MonoBehaviour
 {
     
 
-   [SerializeField] private GameObject itemPrefab; // Assign the prefab in the Inspector
-    private TextMeshProUGUI itemDetailsText;
+    [SerializeField] private GameObject itemPrefab; // Assign the prefab in the Inspector
+    private TextMeshProUGUI itemDetailsText; //Item details
     [SerializeField] private Image itemIcon;
     [SerializeField] private InventoryController inventoryController;
     [SerializeField] private InventoryView inventoryView;
 
-    public Dictionary<ItemType, Transform> categoryContainers = new Dictionary<ItemType, Transform>();
+    public Dictionary<ItemType, Transform> categoryContainers = new Dictionary<ItemType, Transform>(); //category containers dictionary
 
-    private List<GameObject> displayedItems = new List<GameObject>();
+    private List<GameObject> displayedItems = new List<GameObject>(); //list of displayed items
 
+    //attach relevnt game objects
     [SerializeField] private Transform allContainer;
     [SerializeField] private Transform consumableContainer;
     [SerializeField] private Transform materialContainer;
@@ -26,6 +27,7 @@ public class ShopView : MonoBehaviour
 
     private void Start()
     {
+        //Bind the vieports at start for the shop items
         categoryContainers[ItemType.All] = allContainer;
         categoryContainers[ItemType.Consumables] = consumableContainer;
         categoryContainers[ItemType.Materials] = materialContainer;
@@ -33,6 +35,7 @@ public class ShopView : MonoBehaviour
         categoryContainers[ItemType.Weapons] = weaponsContainer;
     }
 
+    //display the items
     public void DisplayItems(List<ShopItem> items, ItemType category)
     {
         if (!categoryContainers.ContainsKey(category) || categoryContainers[category] == null)
@@ -41,7 +44,7 @@ public class ShopView : MonoBehaviour
             return;
         }
 
-        Transform itemContainer = categoryContainers[category];
+        Transform itemContainer = categoryContainers[category]; 
 
         // Clear previous items
         foreach (var obj in displayedItems)
@@ -67,10 +70,11 @@ public class ShopView : MonoBehaviour
             newItem.GetComponent<Button>().onClick.AddListener(() => ShowItemDetails(item));
 
             displayedItems.Add(newItem);
-            Debug.Log($"Item: {item.itemName}, Icon: {item.icon}, Quantity: {item.quantity}");
+            //Debug.Log($"Item: {item.itemName}, Icon: {item.icon}, Quantity: {item.quantity}");
         }
     }
 
+    //show item details
     public void ShowItemDetails(ShopItem item)
     {
         if (item == null)
@@ -84,6 +88,6 @@ public class ShopView : MonoBehaviour
             return;
         }
 
-        ShopPopup.Instance.ShowItemPopup(item, inventoryController, inventoryView);
+        ShopPopup.Instance.ShowItemPopup(item, inventoryController, inventoryView); //show the items
     }
 }

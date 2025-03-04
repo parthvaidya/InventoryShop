@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InventoryController : MonoBehaviour
 {
+    //Add necessary gameobjects
     [SerializeField] private InventoryView inventoryView;
     [SerializeField] private ShopItemCollection itemCollection;
     [SerializeField] private GameObject warningPanel;
@@ -12,36 +13,38 @@ public class InventoryController : MonoBehaviour
 
     public InventoryModel InventoryModel => inventoryModel;
 
-    public float CurrentWeight => inventoryModel.CurrentWeight;
+    public float CurrentWeight => inventoryModel.CurrentWeight; 
     public float MaxWeight => inventoryModel.MaxWeight;
 
     private void Awake()
     {
+        //Set the inventory limit to 200
         inventoryModel = new InventoryModel(200f);
-        inventoryView.Initialize(GatherResources, CloseInventoryPanel);
+        inventoryView.Initialize(GatherResources, CloseInventoryPanel); //initialize it
         inventoryModel.OnInventoryUpdated += () => inventoryView.RefreshInventoryUI(inventoryModel , this);
         warningPanel.SetActive(false);
     }
 
     private void GatherResources()
     {
+        //Initialize gather resources
         SoundManager.Instance.Play(Sounds.ShopItems);
-        if (itemCollection == null || itemCollection.items.Count == 0)
+        if (itemCollection == null || itemCollection.items.Count == 0) //check if items are 0
         {
             Debug.LogError("No items found in the ShopItemCollection!");
             return;
         }
 
-        List<ShopItem> availableItems = new List<ShopItem>(itemCollection.items);
+        List<ShopItem> availableItems = new List<ShopItem>(itemCollection.items); //Available items
 
         if (inventoryModel.ItemCount == 0)
         {
-            // First-time gathering, add up to 3 items
+            // First-time  add up to 3 items
             int itemsToAdd = Mathf.Min(3, availableItems.Count);
             for (int i = 0; i < itemsToAdd; i++)
             {
-                ShopItem randomItem = availableItems[Random.Range(0, availableItems.Count)];
-                if (inventoryModel.CanAddItem(randomItem))
+                ShopItem randomItem = availableItems[Random.Range(0, availableItems.Count)]; 
+                if (inventoryModel.CanAddItem(randomItem)) 
                 {
                     inventoryModel.AddItem(randomItem);
                     //inventoryView.AddItemToInventory(randomItem , this);
@@ -63,7 +66,7 @@ public class InventoryController : MonoBehaviour
                 }
                 else
                 {
-                    inventoryView.ShowCapacityReachedPanel();
+                    inventoryView.ShowCapacityReachedPanel(); //capacity reached
                     break;
                 }
 
@@ -71,23 +74,25 @@ public class InventoryController : MonoBehaviour
             }
         }
 
-        inventoryView.UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight);
+        inventoryView.UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight); //update the weight at real time
     }
 
+    //remove items from inventory
     public void RemoveItemFromInventory(ShopItem item, int quantity)
     {
         inventoryModel.RemoveItem(item, quantity);
         inventoryView.RefreshInventoryUI(inventoryModel , this); // Update UI
-        inventoryView.UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight);
-        Debug.Log($"Updated InventoryController: {CurrentWeight} / {MaxWeight}");
+        inventoryView.UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight); //update weight once removed
+        //Debug.Log($"Updated InventoryController: {CurrentWeight} / {MaxWeight}");
     }
 
     public void RefreshInventoryUI()
     {
-        inventoryView.RefreshInventoryUI(inventoryModel, this);
+        inventoryView.RefreshInventoryUI(inventoryModel, this); //refresh the inventory
     }
 
-    public void ResetGame()
+    //reset the game
+    public void ResetGame() 
     {
         inventoryModel.ResetGame();
         inventoryView.RefreshInventoryUI(inventoryModel, this);
@@ -95,22 +100,24 @@ public class InventoryController : MonoBehaviour
 
     public void AddItemToInventory(ShopItem item, int quantity)
     {
-        if (item == null) return;
+        if (item == null) return; //check for null
 
-        if (inventoryModel.CanAddItem(item, quantity))
+        if (inventoryModel.CanAddItem(item, quantity)) //check if item could be added
         {
             inventoryModel.AddItem(item, quantity);
             inventoryModel.NotifyInventoryUpdated();
         }
         else
         {
-            StartCoroutine(ShowWarningPanel());
+            StartCoroutine(ShowWarningPanel()); //warning for less space
             SoundManager.Instance.Play(Sounds.PopupMusic);
-            Debug.LogWarning("Not enough inventory space!");
+            
         }
 
-        RefreshInventoryUI();
+        RefreshInventoryUI(); //referesh UI for updates
     }
+
+    //couroutine for warning panel to be shown for 2 seconds
     private IEnumerator ShowWarningPanel()
     {
         warningPanel.SetActive(true);
@@ -120,6 +127,6 @@ public class InventoryController : MonoBehaviour
     }
     private void CloseInventoryPanel()
     {
-        inventoryView.CloseInventoryPanel();
+        inventoryView.CloseInventoryPanel(); //close the panel
     }
 }

@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class ShopPopup : MonoBehaviour
 {
     
-    public static ShopPopup Instance;
+    public static ShopPopup Instance; //create an instance
 
+    //add necessary fields
     [SerializeField] private GameObject popupPanel;
     [SerializeField] private GameObject warningPanel;
 
@@ -28,10 +29,12 @@ public class ShopPopup : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        //initialze the popups as inactive
         popupPanel.SetActive(false);
         warningPanel.SetActive(false);
         itemBoughtPanel.SetActive(false);
 
+        //bind buttons to the listeners
         closeButton.onClick.AddListener(ClosePopup);
 
         addButton.onClick.AddListener(IncreaseQuantity);
@@ -39,10 +42,12 @@ public class ShopPopup : MonoBehaviour
         buyButton.onClick.AddListener(BuyItem);
     }
 
+
+    //show popup
     public void ShowItemPopup(ShopItem item, InventoryController inventoryController, InventoryView inventoryView) // Update to accept ShopItem
     {
 
-        Debug.Log("ShowItemPopup called with: " + (inventoryController != null ? "valid controller" : "NULL controller"));
+        //Debug.Log("ShowItemPopup called with: " + (inventoryController != null ? "valid controller" : "NULL controller"));
         this.inventoryController = inventoryController;
         this.inventoryView = inventoryView;
         currentItem = item;
@@ -52,6 +57,8 @@ public class ShopPopup : MonoBehaviour
         popupPanel.SetActive(true);
     }
 
+
+    //update the popup UI
     private void UpdatePopupUI()
     {
         itemIcon.sprite = currentItem.icon;
@@ -67,8 +74,10 @@ public class ShopPopup : MonoBehaviour
         shopQuantityText.text = $"{currentQuantity}";
     }
 
+    //increase quantiyt
     public void IncreaseQuantity()
     {
+        //update current quantity 
         if (currentQuantity < currentItem.quantity)
         {
             SoundManager.Instance.Play(Sounds.ClickItem);
@@ -77,6 +86,7 @@ public class ShopPopup : MonoBehaviour
         }
     }
 
+    //decrease the quantity
     public void DecreaseQuantity()
     {
         if (currentQuantity > 1)
@@ -91,6 +101,7 @@ public class ShopPopup : MonoBehaviour
 
     public void BuyItem()
     {
+        //initiaze the cost , money and quanity
         int totalCost = currentItem.buyPrice * currentQuantity;
         int playerMoney = CurrencyManager.Instance.GetCurrency();
         int purchasedQuantity = currentQuantity;
@@ -98,49 +109,51 @@ public class ShopPopup : MonoBehaviour
 
         if (playerMoney < totalCost)
         {
+            //warning panel for money 
             StartCoroutine(ShowWarningPanel());
             return;
         }
 
         // Deduct the total cost
         CurrencyManager.Instance.SpendCurrency(totalCost);
+        
         //UpdatePopupUI();
         if (inventoryController == null)
         {
             Debug.LogError("InventoryController is null!");
             return;
         }
+        //decrement quantity
         currentItem.quantity -= currentQuantity;
         // Add item to inventory
         inventoryController.AddItemToInventory(currentItem, currentQuantity);
 
-        //new
-
         // Reset quantity and update UI
-        
-       
         inventoryController.RefreshInventoryUI();
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
-        // Refresh inventory and weight UI
+        // Refresh inventory controller
         inventoryController.InventoryModel.NotifyInventoryUpdated();
        
         UpdatePopupUI();
-        Canvas.ForceUpdateCanvases();
+        Canvas.ForceUpdateCanvases(); //used because the canvas forcefully updates as UI becomes slow in updating (Not the best practice but had to use )
         currentQuantity = 1;
 
-        Debug.Log($"Added {currentQuantity}x {currentItem.itemName} to inventory.");
-        Debug.Log($"Inventory now has {inventoryController.MaxWeight - inventoryController.CurrentWeight}  available.");
+        //Debug.Log($"Added {currentQuantity}x {currentItem.itemName} to inventory.");
+        //Debug.Log($"Inventory now has {inventoryController.MaxWeight - inventoryController.CurrentWeight}  available.");
 
-        StartCoroutine(ShowBoughtPanel("Item Bought!!"));
-        SoundManager.Instance.Play(Sounds.MoneyAdded);
+        StartCoroutine(ShowBoughtPanel("Item Bought!!")); //show panel after item is bought
+        
 
         if (currentItem.quantity <= 0) //new
         {
             //SoundManager.Instance.Play(Sounds.MoneyAdded);
             ClosePopup();
         }
+
+        SoundManager.Instance.Play(Sounds.MoneyAdded);
     }
 
+    //coroutine for warning 
     private IEnumerator ShowWarningPanel()
     {
         warningPanel.SetActive(true);
@@ -149,6 +162,7 @@ public class ShopPopup : MonoBehaviour
         warningPanel.SetActive(false);
     }
 
+    //coroutine for item bought
     private IEnumerator ShowBoughtPanel(string message)
     {
         boughtText.text = message;
@@ -159,6 +173,7 @@ public class ShopPopup : MonoBehaviour
         itemBoughtPanel.SetActive(false);
     }
 
+    //close popup
     public void ClosePopup()
     {
         popupPanel.SetActive(false);
