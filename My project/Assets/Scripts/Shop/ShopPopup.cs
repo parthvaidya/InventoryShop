@@ -138,8 +138,7 @@ public class ShopPopup : MonoBehaviour
         Canvas.ForceUpdateCanvases(); //used because the canvas forcefully updates as UI becomes slow in updating (Not the best practice but had to use )
         currentQuantity = 1;
 
-        //Debug.Log($"Added {currentQuantity}x {currentItem.itemName} to inventory.");
-        //Debug.Log($"Inventory now has {inventoryController.MaxWeight - inventoryController.CurrentWeight}  available.");
+        
 
         StartCoroutine(ShowBoughtPanel("Item Bought!!")); //show panel after item is bought
         
