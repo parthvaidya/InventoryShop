@@ -63,7 +63,9 @@ public class InventoryPopup : MonoBehaviour
     {
         if (currentQuantity < currentItem.quantity) // Cannot exceed available quantity
         {
+            SoundManager.Instance.Play(Sounds.ClickItem);
             currentQuantity++;
+            
             UpdatePopupUI();
         }
     }
@@ -72,7 +74,9 @@ public class InventoryPopup : MonoBehaviour
     {
         if (currentQuantity > 1) // Prevent going below 1
         {
+            SoundManager.Instance.Play(Sounds.ClickItem);
             currentQuantity--;
+            
             UpdatePopupUI();
         }
     }
@@ -81,6 +85,7 @@ public class InventoryPopup : MonoBehaviour
 
     private void OpenSellConfirmation()
     {
+        SoundManager.Instance.Play(Sounds.ShopItems);
         if (ConfirmationPopup.Instance == null)
         {
             Debug.LogError("ConfirmationPopup Instance is null! Ensure the popup exists in the scene.");
@@ -135,7 +140,7 @@ public class InventoryPopup : MonoBehaviour
             inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
 
 
-
+            SoundManager.Instance.Play(Sounds.MoneyAdded);
             UpdatePopupUI();
             Canvas.ForceUpdateCanvases();
         }

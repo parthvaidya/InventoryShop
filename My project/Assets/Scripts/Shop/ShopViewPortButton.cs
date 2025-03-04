@@ -25,7 +25,7 @@ public class ShopViewPortButton : MonoBehaviour
             
         }
 
-        SetActiveViewport(0); // Show "All" by default
+        //SetActiveViewport(0); 
     }
 
     public void SetActiveViewport(int index)
@@ -33,7 +33,7 @@ public class ShopViewPortButton : MonoBehaviour
         for (int i = 0; i < bindings.Length; i++)
         {
             bindings[i].viewport.SetActive(i == index);
-            //SoundManager.Instance.Play(Sounds.ButtonClick);
+            SoundManager.Instance.Play(Sounds.ShopItems);
         }
     }
 }

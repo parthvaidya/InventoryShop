@@ -169,10 +169,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sounds:
-  - soundType: 4
-    soundClip: {fileID: 8300000, guid: 7e2796f60617cc645a6dfdb975334fbf, type: 3}
+  - soundType: 1
+    soundClip: {fileID: 8300000, guid: ad62ba21135e8f84ab5a7789e1e9efbe, type: 3}
   - soundType: 0
     soundClip: {fileID: 8300000, guid: 68c65aec95671b549be3b900cc305b1e, type: 3}
+  - soundType: 2
+    soundClip: {fileID: 8300000, guid: ff63b267b9d88be4884ccde72b5a5529, type: 3}
+  - soundType: 4
+    soundClip: {fileID: 8300000, guid: a8627fa52e2ffa644bf4712631f88998, type: 3}
+  - soundType: 3
+    soundClip: {fileID: 8300000, guid: 3e222d9ad20214448b8690c27b578300, type: 3}
+  - soundType: 5
+    soundClip: {fileID: 8300000, guid: 0205ccac637175748960f907349749cc, type: 3}
+  - soundType: 6
+    soundClip: {fileID: 8300000, guid: 0e30c2ab47605a047b0c229a4a4fabd0, type: 3}
   soundEffect: {fileID: 1913753906}
   soundMusic: {fileID: 715893237}
 --- !u!1 &141707078

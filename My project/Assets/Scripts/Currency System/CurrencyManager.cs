@@ -45,6 +45,8 @@ public class CurrencyManager : MonoBehaviour
     {
         if (currencyText != null)
             currencyText.text = $"Coins: {playerCurrency}";
+        //SoundManager.Instance.Play(Sounds.MoneyAdded);
+
     }
 
     public void ResetGame()

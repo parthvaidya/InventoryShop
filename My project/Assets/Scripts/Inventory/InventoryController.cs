@@ -25,6 +25,7 @@ public class InventoryController : MonoBehaviour
 
     private void GatherResources()
     {
+        SoundManager.Instance.Play(Sounds.ShopItems);
         if (itemCollection == null || itemCollection.items.Count == 0)
         {
             Debug.LogError("No items found in the ShopItemCollection!");
@@ -58,7 +59,7 @@ public class InventoryController : MonoBehaviour
                 if (inventoryModel.CanAddItem(randomItem))
                 {
                     inventoryModel.AddItem(randomItem);
-                    //inventoryView.AddItemToInventory(randomItem , this);
+                
                 }
                 else
                 {
@@ -104,6 +105,7 @@ public class InventoryController : MonoBehaviour
         else
         {
             StartCoroutine(ShowWarningPanel());
+            SoundManager.Instance.Play(Sounds.PopupMusic);
             Debug.LogWarning("Not enough inventory space!");
         }
 
@@ -112,6 +114,7 @@ public class InventoryController : MonoBehaviour
     private IEnumerator ShowWarningPanel()
     {
         warningPanel.SetActive(true);
+        SoundManager.Instance.Play(Sounds.PopupMusic);
         yield return new WaitForSeconds(2f);
         warningPanel.SetActive(false);
     }

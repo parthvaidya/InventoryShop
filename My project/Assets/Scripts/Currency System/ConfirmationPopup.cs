@@ -12,6 +12,8 @@ public class ConfirmationPopup : MonoBehaviour
     [SerializeField] private GameObject popupPanel;
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private Button yesButton, noButton;
+    [SerializeField] private GameObject itemSoldPanel;
+
     [SerializeField] private TextMeshProUGUI soldMessageText;
     [SerializeField] private GameObject invenryPopUp;
     
@@ -40,6 +42,7 @@ public class ConfirmationPopup : MonoBehaviour
 
         
         popupPanel.SetActive(false);
+        itemSoldPanel.SetActive(false);
 
         yesButton.onClick.AddListener(Confirm);
         noButton.onClick.AddListener(ClosePopup);
@@ -61,6 +64,7 @@ public class ConfirmationPopup : MonoBehaviour
 
     private void Confirm()
     {
+        SoundManager.Instance.Play(Sounds.ClickItem);
         onConfirm?.Invoke();
         ShowSoldMessage();
         ClosePopup();
@@ -68,25 +72,28 @@ public class ConfirmationPopup : MonoBehaviour
 
     private void ShowSoldMessage()
     {
+        SoundManager.Instance.Play(Sounds.PopupMusic);
         if (soldMessageText != null)
         {
             soldMessageText.text = "Item Sold!"; // Set message text
-            soldMessageText.gameObject.SetActive(true); // Show message
+            soldMessageText.gameObject.SetActive(true);
+            itemSoldPanel.SetActive(true);
+            StartCoroutine(HideSoldPanelAfterDelay());// Show message
 
-            // Hide message after 2 seconds
-            StartCoroutine(HideSoldMessageAfterDelay());
+            
         }
     }
 
-    private IEnumerator HideSoldMessageAfterDelay()
+    private IEnumerator HideSoldPanelAfterDelay()
     {
         yield return new WaitForSeconds(1f);
-        soldMessageText.gameObject.SetActive(false); // Hide message
+        itemSoldPanel.SetActive(false);
     }
 
     public void ClosePopup()
     {
+        SoundManager.Instance.Play(Sounds.ClickItem);
         popupPanel.SetActive(false);
-        //invenryPopUp.SetActive(false);
+        
     }
 }

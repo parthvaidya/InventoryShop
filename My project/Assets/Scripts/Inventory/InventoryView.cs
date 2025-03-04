@@ -36,6 +36,7 @@ public class InventoryView : MonoBehaviour
     public void ShowCapacityReachedPanel()
     {
         capacityReachedPanel.SetActive(true);
+        SoundManager.Instance.Play(Sounds.Warning);
         StopCoroutine(HideCapacityPanel());
         StartCoroutine(HideCapacityPanel());
     }
@@ -82,6 +83,7 @@ public class InventoryView : MonoBehaviour
 
     public void CloseInventoryPanel()
     {
+        SoundManager.Instance.Play(Sounds.ClickItem);
         inventoryPanel.SetActive(false);
     }
 }

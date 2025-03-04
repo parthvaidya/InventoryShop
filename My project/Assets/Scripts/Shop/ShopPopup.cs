@@ -11,6 +11,9 @@ public class ShopPopup : MonoBehaviour
 
     [SerializeField] private GameObject popupPanel;
     [SerializeField] private GameObject warningPanel;
+
+    [SerializeField] private GameObject itemBoughtPanel;  // New panel for item bought
+    [SerializeField] private TextMeshProUGUI boughtText;
     [SerializeField] private Image itemIcon;
     [SerializeField] private TextMeshProUGUI itemNameText, itemDescriptionText, itemDetailsText;
     [SerializeField] private TextMeshProUGUI quantityText, totalPriceText,  playerMoneyText , shopQuantityText;
@@ -27,6 +30,7 @@ public class ShopPopup : MonoBehaviour
         Instance = this;
         popupPanel.SetActive(false);
         warningPanel.SetActive(false);
+        itemBoughtPanel.SetActive(false);
 
         closeButton.onClick.AddListener(ClosePopup);
 
@@ -67,6 +71,7 @@ public class ShopPopup : MonoBehaviour
     {
         if (currentQuantity < currentItem.quantity)
         {
+            SoundManager.Instance.Play(Sounds.ClickItem);
             currentQuantity++;
             UpdatePopupUI();
         }
@@ -76,6 +81,7 @@ public class ShopPopup : MonoBehaviour
     {
         if (currentQuantity > 1)
         {
+            SoundManager.Instance.Play(Sounds.ClickItem);
             currentQuantity--;
             UpdatePopupUI();
         }
@@ -117,15 +123,20 @@ public class ShopPopup : MonoBehaviour
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
         // Refresh inventory and weight UI
         inventoryController.InventoryModel.NotifyInventoryUpdated();
+       
         UpdatePopupUI();
         Canvas.ForceUpdateCanvases();
         currentQuantity = 1;
 
         Debug.Log($"Added {currentQuantity}x {currentItem.itemName} to inventory.");
-        Debug.Log($"Inventory now has {inventoryController.MaxWeight - inventoryController.CurrentWeight} KG available.");
+        Debug.Log($"Inventory now has {inventoryController.MaxWeight - inventoryController.CurrentWeight}  available.");
+
+        StartCoroutine(ShowBoughtPanel("Item Bought!!"));
+        SoundManager.Instance.Play(Sounds.MoneyAdded);
 
         if (currentItem.quantity <= 0) //new
         {
+            //SoundManager.Instance.Play(Sounds.MoneyAdded);
             ClosePopup();
         }
     }
@@ -133,8 +144,19 @@ public class ShopPopup : MonoBehaviour
     private IEnumerator ShowWarningPanel()
     {
         warningPanel.SetActive(true);
+        SoundManager.Instance.Play(Sounds.Warning);
         yield return new WaitForSeconds(2f);
         warningPanel.SetActive(false);
+    }
+
+    private IEnumerator ShowBoughtPanel(string message)
+    {
+        boughtText.text = message;
+        itemBoughtPanel.SetActive(true);
+        
+        yield return new WaitForSeconds(2f);
+        
+        itemBoughtPanel.SetActive(false);
     }
 
     public void ClosePopup()

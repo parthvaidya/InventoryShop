@@ -74,11 +74,12 @@ public class SoundManager : MonoBehaviour
 public enum Sounds
 {
     ButtonClick,
-    PlayerMove,
-    PlayerDeath,
-    EnemyDeath,
     Music,
-    Shoot,
-    AsteroidBreak,
-    collectItem
+    PopupMusic,
+    MoneyAdded,
+    ShopItems,
+    ClickItem,
+    Warning
+
+    
 }
