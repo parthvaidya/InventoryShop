@@ -23,7 +23,7 @@ Once you have enough money just Buy new Items based on the variety of types.
 
 **Gameplay Video** : https://drive.google.com/file/d/1BJ_MhCG-IHnfFsEKA6l1lGVLKn1BJWLG/view?usp=sharing
 
-**Playable Link** :
+**Playable Link** : https://outscal.com/parthvaidya99/game/play-module-assessment-test-i-gda-game-3
 
 **Progress Videos** : https://drive.google.com/file/d/1BJ_MhCG-IHnfFsEKA6l1lGVLKn1BJWLG/view?usp=sharing
 
