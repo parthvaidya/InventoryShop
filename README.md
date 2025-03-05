@@ -4,6 +4,8 @@ It utilizes the **MVC pattern**, **Service Locator**,**Observer Pattern** & **Sc
 
 The Flow Diagram is Also available in My project named Flow_Diagram.png
 
+Flow Diagram: https://drive.google.com/file/d/1r3AnKBCtDASOI4woF9hqLeL7NjJ-dx9Z/view?usp=sharing
+
 # Table of Contents
 1. Gameplay
 
@@ -19,9 +21,11 @@ The Flow Diagram is Also available in My project named Flow_Diagram.png
 Here Click to start the Game in the main menu, post that Gather resources to sell them, free up the space, and get some Money($$).
 Once you have enough money just Buy new Items based on the variety of types.
 
-**Gameplay Video** :
+**Gameplay Video** : https://drive.google.com/file/d/1BJ_MhCG-IHnfFsEKA6l1lGVLKn1BJWLG/view?usp=sharing
 
 **Playable Link** :
+
+**Progress Videos** : https://drive.google.com/file/d/1BJ_MhCG-IHnfFsEKA6l1lGVLKn1BJWLG/view?usp=sharing
 
 # Features
 - **Inventory System**: Organizes and manages player items.
