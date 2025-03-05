@@ -17,9 +17,9 @@ It utilizes the **MVC pattern**, **Service Locator**,**Observer Pattern** & **Sc
 Here Click to start the Game in the main menu, post that Gather resources to sell them, free up the space, and get some Money($$).
 Once you have enough money just Buy new Items based on the variety of types.
 
-Gameplay Video:
+**Gameplay Video** :
 
-Playable Link:
+**Playable Link** :
 
 # Features
 - **Inventory System**: Organizes and manages player items.
@@ -52,7 +52,7 @@ Playable Link:
 4 Play!!
 
 # Credits
-The credits goes to Outscal for the Project and my Mentor Vasan Routh for his guidance
+The credits goes to **Outscal** for the Project and my Mentor **Vasan Routh** for his guidance
 
 
  
