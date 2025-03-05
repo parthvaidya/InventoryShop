@@ -3,11 +3,15 @@ InventoryShop is a Unity-based inventory and shop system just like real games de
 It utilizes the **MVC pattern**, **Service Locator**,**Observer Pattern** & **Scritable Objects** to ensure a structured and scalable system.
 
 # Table of Contents
-1 Gameplay
-2 Features
-3 Installation
-4 Controls
-5 Credits
+1. Gameplay
+
+2. Features
+
+3. Installation
+
+4. Controls
+
+5. Credits
 
 # Gameplay
 Here Click to start the Game in the main menu, post that Gather resources to sell them, free up the space, and get some Money($$).
