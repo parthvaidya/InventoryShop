@@ -1,6 +1,8 @@
 # Inventory And Shop
 InventoryShop is a Unity-based inventory and shop system just like real games designed to buy and sell items. 
-It utilizes the **MVC pattern**, **Service Locator**,**Observer Pattern** & **Scritable Objects** to ensure a structured and scalable system.
+It utilizes the **MVC pattern**, **Service Locator**,**Observer Pattern** & **Scritable Objects** to ensure a structured and scalable system. 
+
+The Flow Diagram is Also available in My project named Flow_Diagram.png
 
 # Table of Contents
 1. Gameplay
