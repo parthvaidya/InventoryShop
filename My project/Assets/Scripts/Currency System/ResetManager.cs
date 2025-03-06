@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class ResetManager : MonoBehaviour
 {
     //create a singleton
-    public static GameManager Instance { get; private set; }
+    public static ResetManager Instance { get; private set; }
 
     [SerializeField] private InventoryController inventoryController;
     [SerializeField] private CurrencyManager currencyManager;
