@@ -31,7 +31,7 @@ public class ShopViewPortButton : MonoBehaviour
         for (int i = 0; i < bindings.Length; i++)
         {
             bindings[i].viewport.SetActive(i == index);
-            SoundManager.Instance.Play(Sounds.ShopItems);
+            //SoundManager.Instance.Play(Sounds.ShopItems);
         }
     }
 }

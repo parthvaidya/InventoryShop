@@ -73,7 +73,6 @@ public class ShopPopup : MonoBehaviour
         //update current quantity 
         if (currentQuantity < currentItem.quantity)
         {
-            SoundManager.Instance.Play(Sounds.ClickItem);
             currentQuantity++;
             UpdatePopupUI();
         }
@@ -84,7 +83,6 @@ public class ShopPopup : MonoBehaviour
     {
         if (currentQuantity > 1)
         {
-            SoundManager.Instance.Play(Sounds.ClickItem);
             currentQuantity--;
             UpdatePopupUI();
         }

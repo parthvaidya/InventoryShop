@@ -26,6 +26,7 @@ public class InventoryController : MonoBehaviour
     {
         //Initialize gather resources
         SoundManager.Instance.Play(Sounds.ShopItems);
+        Debug.Log("GatherResources() called!");
         if (itemCollection == null || itemCollection.items.Count == 0) 
         {
             return;

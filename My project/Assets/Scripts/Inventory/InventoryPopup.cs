@@ -56,7 +56,6 @@ public class InventoryPopup : MonoBehaviour
     {
         if (currentQuantity < currentItem.quantity) // Cannot exceed available quantity
         {
-            SoundManager.Instance.Play(Sounds.ClickItem);
             currentQuantity++; 
             UpdatePopupUI();
         }
@@ -66,7 +65,6 @@ public class InventoryPopup : MonoBehaviour
     {
         if (currentQuantity > 1) // Prevent going below 1
         {
-            SoundManager.Instance.Play(Sounds.ClickItem);
             currentQuantity--;
             UpdatePopupUI();
         }
