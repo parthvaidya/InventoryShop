@@ -16,8 +16,9 @@ public class InventoryView : MonoBehaviour
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private Button closeButton;
     [SerializeField] private GameObject warningPanel;
-
+    [SerializeField] private InventoryController inventoryController;
     private List<GameObject> displayedItems = new List<GameObject>(); //display the items
+    
 
     //initialze the buttons
     public void Initialize(System.Action onGatherResources, System.Action onClose)
@@ -27,6 +28,7 @@ public class InventoryView : MonoBehaviour
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(() => onClose?.Invoke());
         capacityReachedPanel.SetActive(false);
+        warningPanel.SetActive(false);
     }
 
     //update the weight 
@@ -40,7 +42,7 @@ public class InventoryView : MonoBehaviour
     {
         capacityReachedPanel.SetActive(true);
         SoundManager.Instance.Play(Sounds.Warning);
-        StopCoroutine(HideCapacityPanel());
+        //StopCoroutine(HideCapacityPanel());
         StartCoroutine(HideCapacityPanel());
     }
 
@@ -52,43 +54,64 @@ public class InventoryView : MonoBehaviour
     }
 
     //add items to inventory
-    public void AddItemToInventory(ShopItem item, InventoryController inventoryController)
-    {
-        //find the item icon and text
-        GameObject newItem = Instantiate(itemPrefab, inventoryContainer);
-        Image itemIcon = newItem.transform.Find("ItemIcon").GetComponent<Image>();
-        TextMeshProUGUI quantityText = newItem.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        itemIcon.sprite = item.icon;
-        quantityText.text = item.quantity.ToString();
-        displayedItems.Add(newItem); //display items
-        newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item, inventoryController, this));
-    }
+    //public void AddItemToInventory(ShopItem item, InventoryController inventoryController)
+    //{
+    //    //find the item icon and text
+    //    GameObject newItem = Instantiate(itemPrefab, inventoryContainer);
+    //    Image itemIcon = newItem.transform.Find("ItemIcon").GetComponent<Image>();
+    //    TextMeshProUGUI quantityText = newItem.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+    //    itemIcon.sprite = item.icon;
+    //    quantityText.text = item.quantity.ToString();
+    //    displayedItems.Add(newItem); //display items
+    //    newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item, inventoryController, this));
+    //}
 
     //refresh inventory
-    public void RefreshInventoryUI(InventoryModel inventoryModel , InventoryController inventoryController)
+    //public void RefreshInventoryUI(InventoryModel inventoryModel , InventoryController inventoryController)
+    //{
+    //    // Clear previous UI elements
+    //    foreach (var displayedItem in displayedItems)
+    //    {
+    //        Destroy(displayedItem);
+    //    }
+    //    displayedItems.Clear();
+
+    //    // Re-add the remaining items
+    //    foreach (var item in inventoryModel.GetAllItems())
+    //    {
+    //        AddItemToInventory(item , inventoryController);
+    //    }
+
+    //    // Update weight UI
+    //    UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight);
+    //}
+
+    public void RefreshInventoryUI(List<ShopItem> items)
     {
-        // Clear previous UI elements
         foreach (var displayedItem in displayedItems)
         {
             Destroy(displayedItem);
         }
         displayedItems.Clear();
 
-        // Re-add the remaining items
-        foreach (var item in inventoryModel.GetAllItems())
+        foreach (var item in items)
         {
-            AddItemToInventory(item , inventoryController);
-        }
+            GameObject newItem = Instantiate(itemPrefab, inventoryContainer);
+            Image itemIcon = newItem.transform.Find("ItemIcon").GetComponent<Image>();
+            TextMeshProUGUI quantityText = newItem.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
 
-        // Update weight UI
-        UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight);
+            itemIcon.sprite = item.icon;
+            quantityText.text = item.quantity.ToString();
+
+            newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item , inventoryController, this));
+            displayedItems.Add(newItem);
+        }
     }
 
 
     //close inventory panel
     public void CloseInventoryPanel()
     {
-        SoundManager.Instance.Play(Sounds.ClickItem);
         inventoryPanel.SetActive(false);
     }
     

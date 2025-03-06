@@ -16,9 +16,9 @@ public class ShopPopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemNameText, itemDescriptionText, itemDetailsText;
     [SerializeField] private TextMeshProUGUI quantityText, totalPriceText,  playerMoneyText , shopQuantityText;
     [SerializeField] private Button addButton, removeButton, buyButton, closeButton;
-    
-    private InventoryController inventoryController;
-    private InventoryView inventoryView;
+
+    [SerializeField] private InventoryController inventoryController;
+    [SerializeField] private InventoryView inventoryView;
     private ShopItem currentItem; // Update to use ShopItem
     private int currentQuantity = 1;
 
@@ -122,7 +122,8 @@ public class ShopPopup : MonoBehaviour
         inventoryController.AddItemToInventory(currentItem, currentQuantity);
 
         // Reset quantity and update UI
-        inventoryController.RefreshInventoryUI();
+        //inventoryController.RefreshInventoryUI();
+        inventoryView.RefreshInventoryUI(inventoryController.InventoryModel.GetAllItems());
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
         inventoryController.InventoryModel.NotifyInventoryUpdated();
        
@@ -134,10 +135,8 @@ public class ShopPopup : MonoBehaviour
         
         if (currentItem.quantity <= 0) //new
         {
-            //SoundManager.Instance.Play(Sounds.MoneyAdded);
             ClosePopup();
         }
-        
         SoundManager.Instance.Play(Sounds.MoneyAdded);
     }
 
@@ -163,7 +162,8 @@ public class ShopPopup : MonoBehaviour
     public void ClosePopup()
     {
         popupPanel.SetActive(false);
-        inventoryController.RefreshInventoryUI();
+        //inventoryController.RefreshInventoryUI();
+        inventoryView.RefreshInventoryUI(inventoryController.InventoryModel.GetAllItems());
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
     }
 }

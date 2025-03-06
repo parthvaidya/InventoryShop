@@ -14,9 +14,9 @@ public class InventoryPopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI inventoryQuantityText, expectedEarningsText;
     [SerializeField] private Button addButton, removeButton, sellButton, closeButton;
 
-    private InventoryController inventoryController;
-    private InventoryView inventoryView;
-    private InventoryModel inventoryModel;
+    [SerializeField] private InventoryController inventoryController;
+    [SerializeField] private InventoryView inventoryView;
+    [SerializeField] private InventoryModel inventoryModel;
     private ShopItem currentItem;
     private int currentQuantity;
 
@@ -105,7 +105,8 @@ public class InventoryPopup : MonoBehaviour
 
             currentQuantity = 1;
 
-            inventoryController.RefreshInventoryUI();
+            //inventoryController.RefreshInventoryUI();
+            inventoryView.RefreshInventoryUI(inventoryController.InventoryModel.GetAllItems());
             inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
 
             SoundManager.Instance.Play(Sounds.MoneyAdded);
@@ -117,7 +118,8 @@ public class InventoryPopup : MonoBehaviour
     public void ClosePopup()
     {
         popupPanel.SetActive(false);
-        inventoryController.RefreshInventoryUI();
+        //inventoryController.RefreshInventoryUI();
+        inventoryView.RefreshInventoryUI(inventoryController.InventoryModel.GetAllItems());
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
     }
 }
