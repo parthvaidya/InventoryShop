@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +8,7 @@ public class ConfirmationPopup : MonoBehaviour
     //create instance
     public static ConfirmationPopup Instance;
 
-    //objects to add
+    
     [Header("UI References")]
     [SerializeField] private GameObject popupPanel;
     [SerializeField] private TextMeshProUGUI messageText;
