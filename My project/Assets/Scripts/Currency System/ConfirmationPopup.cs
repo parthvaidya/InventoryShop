@@ -8,33 +8,23 @@ public class ConfirmationPopup : MonoBehaviour
     //create instance
     public static ConfirmationPopup Instance;
 
-    
     [Header("UI References")]
     [SerializeField] private GameObject popupPanel;
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private Button yesButton, noButton;
     [SerializeField] private GameObject itemSoldPanel;
-
     [SerializeField] private TextMeshProUGUI soldMessageText;
     [SerializeField] private GameObject invenryPopUp;
     
-
     private System.Action onConfirm;
-
     private void Awake()
     {
-
-
-        if (Instance == null)
-        {
+        if (Instance == null){
             Instance = this;
-        }
-        else
-        {
+        } else {
             Destroy(gameObject); // Prevent duplicate instances
             return;
         }
-
         // Ensure the popup is properly initialized even if inactive
         if (popupPanel == null)
         {
@@ -44,7 +34,6 @@ public class ConfirmationPopup : MonoBehaviour
         //set active false initially
         popupPanel.SetActive(false);
         itemSoldPanel.SetActive(false);
-
         yesButton.onClick.AddListener(Confirm);
         noButton.onClick.AddListener(ClosePopup);
 
@@ -53,15 +42,12 @@ public class ConfirmationPopup : MonoBehaviour
             soldMessageText.gameObject.SetActive(false); // Hide initially
         }
     }
-
     //show confirmation message
     public void ShowConfirmation(string message, System.Action confirmAction)
     {
         messageText.text = message;
         onConfirm = confirmAction;
-        popupPanel.SetActive(true);
-       
-        
+        popupPanel.SetActive(true);   
     }
 
     //confirm the message
@@ -73,7 +59,7 @@ public class ConfirmationPopup : MonoBehaviour
         ClosePopup();
     }
 
-    //show the sold popup 
+    //show the sold popup
     private void ShowSoldMessage()
     {
         SoundManager.Instance.Play(Sounds.PopupMusic);
@@ -82,9 +68,7 @@ public class ConfirmationPopup : MonoBehaviour
             soldMessageText.text = "Item Sold!"; // Set message text
             soldMessageText.gameObject.SetActive(true);
             itemSoldPanel.SetActive(true);
-            StartCoroutine(HideSoldPanelAfterDelay());// Show message
-
-            
+            StartCoroutine(HideSoldPanelAfterDelay());// Show message   
         }
     }
 
@@ -99,7 +83,6 @@ public class ConfirmationPopup : MonoBehaviour
     private void ClosePopup()
     {
         SoundManager.Instance.Play(Sounds.ClickItem);
-        popupPanel.SetActive(false);
-        
+        popupPanel.SetActive(false);     
     }
 }

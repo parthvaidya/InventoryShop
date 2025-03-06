@@ -5,16 +5,12 @@ using UnityEngine.UI;
 
 public class ShopView : MonoBehaviour
 {
-    
-
     [SerializeField] private GameObject itemPrefab; // Assign the prefab in the Inspector
-    private TextMeshProUGUI itemDetailsText; //Item details
     [SerializeField] private Image itemIcon;
     [SerializeField] private InventoryController inventoryController;
     [SerializeField] private InventoryView inventoryView;
-
+    private TextMeshProUGUI itemDetailsText; //Item details
     public Dictionary<ItemType, Transform> categoryContainers = new Dictionary<ItemType, Transform>(); //category containers dictionary
-
     private List<GameObject> displayedItems = new List<GameObject>(); //list of displayed items
 
     //attach relevnt game objects
@@ -56,37 +52,28 @@ public class ShopView : MonoBehaviour
         foreach (var item in items)
         {
             GameObject newItem = Instantiate(itemPrefab, itemContainer);
-
             Image itemIcon = newItem.transform.Find("ItemIcon").GetComponent<Image>();
             TextMeshProUGUI quantityText = newItem.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             Image buttonBackground = newItem.GetComponent<Image>();
-
             itemIcon.sprite = item.icon;
             quantityText.text = item.quantity.ToString();
-
             buttonBackground.color = Color.white;
-
             newItem.GetComponent<Button>().onClick.AddListener(() => ShowItemDetails(item));
-
             displayedItems.Add(newItem);
-            //Debug.Log($"Item: {item.itemName}, Icon: {item.icon}, Quantity: {item.quantity}");
+            
         }
     }
-
     //show item details
     public void ShowItemDetails(ShopItem item)
     {
         if (item == null)
         {
-            Debug.LogError("ShowItemDetails: item is null!");
             return;
         }
         if (ShopPopup.Instance == null)
         {
-            Debug.LogError("ShopPopup.Instance is null! Make sure the popup is in the scene and active.");
             return;
         }
-
         ShopPopup.Instance.ShowItemPopup(item, inventoryController, inventoryView); //show the items
     }
 }

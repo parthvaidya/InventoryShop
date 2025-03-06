@@ -10,17 +10,14 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private GameObject warningPanel;
 
     private InventoryModel inventoryModel;
-
     public InventoryModel InventoryModel => inventoryModel;
-
     public float CurrentWeight => inventoryModel.CurrentWeight; 
     public float MaxWeight => inventoryModel.MaxWeight;
 
     private void Awake()
-    {
-        //Set the inventory limit to 200
-        inventoryModel = new InventoryModel(200f);
-        inventoryView.Initialize(GatherResources, CloseInventoryPanel); //initialize it
+    {   
+        inventoryModel = new InventoryModel(200f); //inventory limit  
+        inventoryView.Initialize(GatherResources, CloseInventoryPanel); 
         inventoryModel.OnInventoryUpdated += () => inventoryView.RefreshInventoryUI(inventoryModel , this);
         warningPanel.SetActive(false);
     }
@@ -29,14 +26,13 @@ public class InventoryController : MonoBehaviour
     {
         //Initialize gather resources
         SoundManager.Instance.Play(Sounds.ShopItems);
-        if (itemCollection == null || itemCollection.items.Count == 0) //check if items are 0
+        if (itemCollection == null || itemCollection.items.Count == 0) 
         {
-            Debug.LogError("No items found in the ShopItemCollection!");
             return;
         }
 
         List<ShopItem> availableItems = new List<ShopItem>(itemCollection.items); //Available items
-
+        
         if (inventoryModel.ItemCount == 0)
         {
             // First-time  add up to 3 items
@@ -51,9 +47,7 @@ public class InventoryController : MonoBehaviour
                     availableItems.Remove(randomItem);
                 }
             }
-        }
-        else
-        {
+        } else {
             // Keep gathering until capacity is reached
             while (availableItems.Count > 0)
             {
@@ -63,27 +57,21 @@ public class InventoryController : MonoBehaviour
                 {
                     inventoryModel.AddItem(randomItem);
                 
-                }
-                else
-                {
+                } else {
                     inventoryView.ShowCapacityReachedPanel(); //capacity reached
                     break;
                 }
-
                 availableItems.Remove(randomItem);
             }
         }
-
         inventoryView.UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight); //update the weight at real time
     }
 
-    //remove items from inventory
     public void RemoveItemFromInventory(ShopItem item, int quantity)
     {
         inventoryModel.RemoveItem(item, quantity);
         inventoryView.RefreshInventoryUI(inventoryModel , this); // Update UI
-        inventoryView.UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight); //update weight once removed
-        //Debug.Log($"Updated InventoryController: {CurrentWeight} / {MaxWeight}");
+        inventoryView.UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight); //update weight 
     }
 
     public void RefreshInventoryUI()
@@ -100,20 +88,17 @@ public class InventoryController : MonoBehaviour
 
     public void AddItemToInventory(ShopItem item, int quantity)
     {
-        if (item == null) return; //check for null
+        if (item == null) 
+            return; //check for null
 
         if (inventoryModel.CanAddItem(item, quantity)) //check if item could be added
         {
             inventoryModel.AddItem(item, quantity);
             inventoryModel.NotifyInventoryUpdated();
-        }
-        else
-        {
+        } else {
             StartCoroutine(ShowWarningPanel()); //warning for less space
             SoundManager.Instance.Play(Sounds.PopupMusic);
-            
         }
-
         RefreshInventoryUI(); //referesh UI for updates
     }
 

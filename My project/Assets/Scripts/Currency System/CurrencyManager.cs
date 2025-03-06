@@ -6,22 +6,25 @@ public class CurrencyManager : MonoBehaviour
 {
    //create a singleton for currency manager
     public static CurrencyManager Instance { get; private set; }
-
     public event Action<int> OnCurrencyChanged; //make it an action
-
     private int playerCurrency = 0;
     public TextMeshProUGUI currencyText;
-
+    public int GetCurrency() => playerCurrency;
+    public bool CanAfford(int amount) => playerCurrency >= amount; 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Keep it persistent
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         UpdateCurrencyUI();
     }
-
-    public int GetCurrency() => playerCurrency;
-
-    public bool CanAfford(int amount) => playerCurrency >= amount;
-
 
     //add currency
     public void AddCurrency(int amount)
@@ -31,13 +34,10 @@ public class CurrencyManager : MonoBehaviour
         UpdateCurrencyUI();
     }
 
-
     //spend currency
-
     public bool SpendCurrency(int amount)
     {
         if (!CanAfford(amount)) return false;
-
         playerCurrency -= amount; //reduce amount
         OnCurrencyChanged?.Invoke(playerCurrency);
         UpdateCurrencyUI();
@@ -49,18 +49,13 @@ public class CurrencyManager : MonoBehaviour
     {
         if (currencyText != null)
             currencyText.text = $"Coins: {playerCurrency}";
-        //SoundManager.Instance.Play(Sounds.MoneyAdded);
-
     }
 
-
-    //reste game once done
+    //reset game once done
     public void ResetGame()
     {
         playerCurrency = 0;
         OnCurrencyChanged?.Invoke(playerCurrency);
         UpdateCurrencyUI();
     }
-
-
 }

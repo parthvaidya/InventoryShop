@@ -2,8 +2,6 @@ using System.Collections.Generic;
 
 public class ShopModel 
 {
-    
-
     public List<ShopItem> items; //list of items
 
     //create a model
@@ -23,8 +21,7 @@ public class ShopModel
 
     //reset the game
     public void ResetGame()
-    {
-        
+    {   
         items.Clear(); // Clear the shop's current items
         items = ShopServiceLocator.Instance.GetAllItems(); // Repopulate shop items
     }

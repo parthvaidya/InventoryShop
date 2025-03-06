@@ -9,21 +9,16 @@ public class SoundManager : MonoBehaviour
     public SoundType[] Sounds;
     public AudioSource soundEffect;
     public AudioSource soundMusic;
+
     private void Awake()
     {
         //check for duplicate instance
-        if (instance == null)
-        {
+        if (instance == null){
             instance = this;
             DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
+        } else {
             Destroy(gameObject);
         }
-
-
-
     }
     private void Start()
     {
@@ -39,9 +34,9 @@ public class SoundManager : MonoBehaviour
         {
             soundMusic.clip = clip;
             soundMusic.Play();
+        } else { 
+            Debug.Log("Clip not found"); 
         }
-
-        else { Debug.Log("Clip not found"); }
     }
 
     public void Play(Sounds sound)
@@ -52,8 +47,9 @@ public class SoundManager : MonoBehaviour
         {
             soundEffect.PlayOneShot(clip);
         }
-
-        else { Debug.Log("Clip not found"); }
+        else { 
+            Debug.Log("Clip not found"); 
+        }
     }
 
     private AudioClip getSoundClip(Sounds sound)

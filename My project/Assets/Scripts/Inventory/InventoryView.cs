@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class InventoryView : MonoBehaviour
 {
-
     //add necessary game objects
     [Header("UI References")]
     [SerializeField] private Button gatherResourcesButton;
@@ -19,16 +18,13 @@ public class InventoryView : MonoBehaviour
 
     private List<GameObject> displayedItems = new List<GameObject>(); //display the items
 
-
     //initialze the buttons
     public void Initialize(System.Action onGatherResources, System.Action onClose)
     {
         gatherResourcesButton.onClick.RemoveAllListeners();
         gatherResourcesButton.onClick.AddListener(() => onGatherResources?.Invoke());
-
         closeButton.onClick.RemoveAllListeners();
         closeButton.onClick.AddListener(() => onClose?.Invoke());
-
         capacityReachedPanel.SetActive(false);
     }
 
@@ -37,7 +33,6 @@ public class InventoryView : MonoBehaviour
     {
         weightText.text = $"{currentWeight} / {maxWeight} KG";
     }
-
 
     //show capacity reached
     public void ShowCapacityReachedPanel()
@@ -62,10 +57,8 @@ public class InventoryView : MonoBehaviour
         GameObject newItem = Instantiate(itemPrefab, inventoryContainer);
         Image itemIcon = newItem.transform.Find("ItemIcon").GetComponent<Image>();
         TextMeshProUGUI quantityText = newItem.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-
         itemIcon.sprite = item.icon;
         quantityText.text = item.quantity.ToString();
-
         displayedItems.Add(newItem); //display items
         newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item, inventoryController, this));
     }
@@ -88,8 +81,6 @@ public class InventoryView : MonoBehaviour
 
         // Update weight UI
         UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight);
-
-        
     }
 
 

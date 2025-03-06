@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class InventoryModel 
 {
-    
     //set the required items 
-
     public float MaxWeight { get; private set; }
     public float CurrentWeight { get; private set; }
     private List<ShopItem> items;
 
     public event Action OnInventoryUpdated; //action for observer pattern
-
     public int ItemCount => items.Count;
 
     //create the inventory
@@ -29,18 +26,15 @@ public class InventoryModel
         return (CurrentWeight + item.weight * quantity) <= MaxWeight;
     }
 
-    
     //Add the Items 
     public void AddItem(ShopItem item, int quantity = 1)
     {
         ShopItem existingItem = items.Find(i => i.itemName == item.itemName);
-
         if (existingItem != null) //check for existing item to update the quantity
         {
             existingItem.quantity += quantity;
-        }
-        else //add new item
-        {
+        } else  {
+            //add new item
             ShopItem newItem = new ShopItem
             {
                 itemName = item.itemName,
@@ -53,32 +47,26 @@ public class InventoryModel
                 sellPrice = item.sellPrice,
                 icon = item.icon
             };
-
             items.Add(newItem);
-            
         }
 
         CurrentWeight += item.weight * quantity; //update the weight
         OnInventoryUpdated?.Invoke(); //invoke the inventory
-        //Debug.Log($"Inventory updated! Items count: {items.Count}");
     }
 
     //remove items after selling
     public void RemoveItem(ShopItem item, int quantity)
     {
         ShopItem existingItem = items.Find(i => i.itemName == item.itemName);
-
         if (existingItem != null)
         {
             int actualQuantityToRemove = Mathf.Min(existingItem.quantity, quantity); //keep positive values
             existingItem.quantity -= actualQuantityToRemove;
             CurrentWeight = Mathf.Max(0, CurrentWeight - item.weight * actualQuantityToRemove);
-
             if (existingItem.quantity <= 0)
             {
                 items.Remove(existingItem); //remove items
             }
-
             OnInventoryUpdated?.Invoke(); //invoke to update
         }
     }
@@ -102,5 +90,4 @@ public class InventoryModel
         CurrentWeight = 0f;
         OnInventoryUpdated?.Invoke();
     }
-
 }

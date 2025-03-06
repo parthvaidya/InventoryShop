@@ -37,7 +37,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over! Resetting inventory and currency...");
         currencyManager.ResetGame();
         inventoryController.ResetGame();
-        shopController.ResetGame();
-        
+        shopController.ResetGame();  
     }
 }
