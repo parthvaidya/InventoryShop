@@ -15,6 +15,7 @@ public class InventoryView : MonoBehaviour
     [SerializeField] private GameObject capacityReachedPanel;
     [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private Button closeButton;
+    [SerializeField] private GameObject warningPanel;
 
     private List<GameObject> displayedItems = new List<GameObject>(); //display the items
 
@@ -89,5 +90,19 @@ public class InventoryView : MonoBehaviour
     {
         SoundManager.Instance.Play(Sounds.ClickItem);
         inventoryPanel.SetActive(false);
+    }
+    
+    //Warning panel
+    public void ShowWarningPanel()
+    {
+        warningPanel.SetActive(true);
+        SoundManager.Instance.Play(Sounds.PopupMusic);
+        StartCoroutine(HideWarningPanel());
+    }
+    //Coroutine to hide it
+    private IEnumerator HideWarningPanel()
+    {
+        yield return new WaitForSeconds(2f);
+        warningPanel.SetActive(false);
     }
 }

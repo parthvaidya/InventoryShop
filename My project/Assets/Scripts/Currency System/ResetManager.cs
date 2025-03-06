@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ResetManager : MonoBehaviour
 {
-    //create a singleton
+   
     public static ResetManager Instance { get; private set; }
 
     [SerializeField] private InventoryController inventoryController;
@@ -14,7 +14,7 @@ public class ResetManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Keep GameManager persistent
+            DontDestroyOnLoad(gameObject); // Keep ResetManager persistent
         }
         else
         {

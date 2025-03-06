@@ -7,7 +7,6 @@ public class InventoryController : MonoBehaviour
     //Add necessary gameobjects
     [SerializeField] private InventoryView inventoryView;
     [SerializeField] private ShopItemCollection itemCollection;
-    [SerializeField] private GameObject warningPanel;
 
     private InventoryModel inventoryModel;
     public InventoryModel InventoryModel => inventoryModel;
@@ -19,7 +18,7 @@ public class InventoryController : MonoBehaviour
         inventoryModel = new InventoryModel(200f); //inventory limit  
         inventoryView.Initialize(GatherResources, CloseInventoryPanel); 
         inventoryModel.OnInventoryUpdated += () => inventoryView.RefreshInventoryUI(inventoryModel , this);
-        warningPanel.SetActive(false);
+        //warningPanel.SetActive(false);
     }
 
     private void GatherResources()
@@ -97,20 +96,12 @@ public class InventoryController : MonoBehaviour
             inventoryModel.AddItem(item, quantity);
             inventoryModel.NotifyInventoryUpdated();
         } else {
-            StartCoroutine(ShowWarningPanel()); //warning for less space
+            inventoryView.ShowWarningPanel();
             SoundManager.Instance.Play(Sounds.PopupMusic);
         }
         RefreshInventoryUI(); //referesh UI for updates
     }
 
-    //couroutine for warning panel to be shown for 2 seconds
-    private IEnumerator ShowWarningPanel()
-    {
-        warningPanel.SetActive(true);
-        SoundManager.Instance.Play(Sounds.PopupMusic);
-        yield return new WaitForSeconds(2f);
-        warningPanel.SetActive(false);
-    }
     private void CloseInventoryPanel()
     {
         inventoryView.CloseInventoryPanel(); //close the panel
