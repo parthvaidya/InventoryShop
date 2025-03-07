@@ -7,15 +7,15 @@ public class ShopModel
     //create a model
     public ShopModel()
     {
-        items = ShopService.Instance.GetAllItems();
+        items = ShopServiceLocator.Instance.GetAllItems();
     }
 
     //get items by their types 
     public List<ShopItem> GetItemsByType(ItemType type)
     {
         return type == ItemType.Consumables || type == ItemType.Materials || type == ItemType.Treasures || type == ItemType.Weapons
-            ? ShopService.Instance.GetItemsByCategory(type)
-            : ShopService.Instance.GetAllItems();
+            ? ShopServiceLocator.Instance.GetItemsByCategory(type)
+            : ShopServiceLocator.Instance.GetAllItems();
     }
 
 
@@ -23,6 +23,6 @@ public class ShopModel
     public void ResetGame()
     {   
         items.Clear(); // Clear the shop's current items
-        items = ShopService.Instance.GetAllItems(); // Repopulate shop items
+        items = ShopServiceLocator.Instance.GetAllItems(); // Repopulate shop items
     }
 }

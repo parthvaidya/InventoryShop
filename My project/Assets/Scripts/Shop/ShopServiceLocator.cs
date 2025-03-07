@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShopService : MonoBehaviour
+public class ShopServiceLocator : MonoBehaviour
 {
-    public static ShopService Instance { get; private set; } //create singleton
+    public static ShopServiceLocator Instance { get; private set; } //create singleton
     [SerializeField] private ShopItemCollection itemCollection; // Single asset containing multiple items
     private List<ShopItem> allItems = new List<ShopItem>();
 

@@ -27,7 +27,7 @@ public class ShopController : MonoBehaviour
     //update the shop view by displaying items
     public void UpdateShopView(ItemType itemType)
     {
-        List<ShopItem> filteredItems = ShopService.Instance.GetItemsByCategory(itemType);
+        List<ShopItem> filteredItems = ShopServiceLocator.Instance.GetItemsByCategory(itemType);
         shopView.DisplayItems(filteredItems, itemType);
     }
     
