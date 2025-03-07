@@ -11,7 +11,6 @@ public class ShopItemCollection : ScriptableObject
 }
 
 //scritptable items for shop Items
-
 [System.Serializable]
 public class ShopItem 
 {

@@ -25,7 +25,7 @@ public class ShopController : MonoBehaviour
         UpdateShopView(shopModel.GetItemsByType(ItemType.All));
     }
 
-   //Bind Ui buttons
+   //Bind UI buttons
     private void BindUIButtons()
     {
         allButton.onClick.AddListener(() => shopModel.UpdateItems(shopModel.GetItemsByType(ItemType.All)));
