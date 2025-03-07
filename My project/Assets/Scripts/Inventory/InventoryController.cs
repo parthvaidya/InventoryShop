@@ -13,6 +13,7 @@ public class InventoryController : MonoBehaviour
     public float CurrentWeight => inventoryModel.CurrentWeight; 
     public float MaxWeight => inventoryModel.MaxWeight;
    
+    //On awake pass the inventory capacity to be max 200
     private void Awake()
     {
         inventoryModel = new InventoryModel(200f);
