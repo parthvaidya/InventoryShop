@@ -24,6 +24,7 @@ public class ShopView : MonoBehaviour
         categoryContainers[ItemType.Weapons] = weaponsContainer;
     }
 
+    //DIsplay Items
     public void DisplayItems(List<ShopItem> items, ItemType category)
     {
         if (!categoryContainers.ContainsKey(category) || categoryContainers[category] == null)
@@ -45,6 +46,7 @@ public class ShopView : MonoBehaviour
         }
     }
 
+    //Remove the items
     private void ClearDisplayedItems()
     {
         foreach (var obj in displayedItems)
@@ -54,6 +56,7 @@ public class ShopView : MonoBehaviour
         displayedItems.Clear();
     }
 
+    //show details
     public void ShowItemDetails(ShopItem item)
     {
         if (item == null || ShopPopup.Instance == null)

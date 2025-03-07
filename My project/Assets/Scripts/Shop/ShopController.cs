@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ShopController : MonoBehaviour
 {
-   
+    //Initialzie
     private ShopModel shopModel;
     public ShopView shopView;
 
@@ -19,31 +19,31 @@ public class ShopController : MonoBehaviour
             return;
         }
         shopModel = new ShopModel(itemCollection.items);
+        shopModel.OnShopItemsUpdated += UpdateShopView;
+        
         BindUIButtons();
-        UpdateShopView(ItemType.All);
+        UpdateShopView(shopModel.GetItemsByType(ItemType.All));
     }
 
-    //Bind the Ui buttons to listeners
+   //Bind Ui buttons
     private void BindUIButtons()
     {
-        allButton.onClick.AddListener(() => UpdateShopView(ItemType.All));
-        consumablesButton.onClick.AddListener(() => UpdateShopView(ItemType.Consumables));
-        materialsButton.onClick.AddListener(() => UpdateShopView(ItemType.Materials));
-        treasuresButton.onClick.AddListener(() => UpdateShopView(ItemType.Treasures));
-        weaponsButton.onClick.AddListener(() => UpdateShopView(ItemType.Weapons));
+        allButton.onClick.AddListener(() => shopModel.UpdateItems(shopModel.GetItemsByType(ItemType.All)));
+        consumablesButton.onClick.AddListener(() => shopModel.UpdateItems(shopModel.GetItemsByType(ItemType.Consumables)));
+        materialsButton.onClick.AddListener(() => shopModel.UpdateItems(shopModel.GetItemsByType(ItemType.Materials)));
+        treasuresButton.onClick.AddListener(() => shopModel.UpdateItems(shopModel.GetItemsByType(ItemType.Treasures)));
+        weaponsButton.onClick.AddListener(() => shopModel.UpdateItems(shopModel.GetItemsByType(ItemType.Weapons)));
     }
 
-    //Update the shop view based on new items
-    public void UpdateShopView(ItemType itemType)
+    //Update the view
+    private void UpdateShopView(List<ShopItem> updatedItems)
     {
-        List<ShopItem> filteredItems = shopModel.GetItemsByType(itemType);
-        shopView.DisplayItems(filteredItems, itemType);
+        shopView.DisplayItems(updatedItems, ItemType.All);
     }
 
-    //Reset the game
+    //Reset Game
     public void ResetGame()
     {
         shopModel.ResetGame(itemCollection.items);
-        UpdateShopView(ItemType.All);
     }
 }
