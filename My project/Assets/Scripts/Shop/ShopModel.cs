@@ -2,27 +2,50 @@ using System.Collections.Generic;
 
 public class ShopModel 
 {
-    public List<ShopItem> items; //list of items
+    //public List<ShopItem> items; //list of items
 
-    //create a model
-    public ShopModel()
+    ////create a model
+    //public ShopModel()
+    //{
+    //    items = ShopServiceLocator.Instance.GetAllItems();
+    //}
+
+    ////get items by their types 
+    //public List<ShopItem> GetItemsByType(ItemType type)
+    //{
+    //    return type == ItemType.Consumables || type == ItemType.Materials || type == ItemType.Treasures || type == ItemType.Weapons
+    //        ? ShopServiceLocator.Instance.GetItemsByCategory(type)
+    //        : ShopServiceLocator.Instance.GetAllItems();
+    //}
+
+
+    ////reset the game
+    //public void ResetGame()
+    //{   
+    //    items.Clear(); // Clear the shop's current items
+    //    items = ShopServiceLocator.Instance.GetAllItems(); // Repopulate shop items
+    //}
+
+
+    public List<ShopItem> items;
+
+    public ShopModel(List<ShopItem> initialItems)
     {
-        items = ShopServiceLocator.Instance.GetAllItems();
+        items = new List<ShopItem>(initialItems);
     }
 
-    //get items by their types 
     public List<ShopItem> GetItemsByType(ItemType type)
     {
-        return type == ItemType.Consumables || type == ItemType.Materials || type == ItemType.Treasures || type == ItemType.Weapons
-            ? ShopServiceLocator.Instance.GetItemsByCategory(type)
-            : ShopServiceLocator.Instance.GetAllItems();
+        if (type == ItemType.All)
+        {
+            return new List<ShopItem>(items);
+        }
+        return items.FindAll(item => item.itemType == type);
     }
 
-
-    //reset the game
-    public void ResetGame()
-    {   
-        items.Clear(); // Clear the shop's current items
-        items = ShopServiceLocator.Instance.GetAllItems(); // Repopulate shop items
+    public void ResetGame(List<ShopItem> initialItems)
+    {
+        items.Clear();
+        items.AddRange(initialItems);
     }
 }

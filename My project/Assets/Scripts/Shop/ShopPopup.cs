@@ -92,6 +92,7 @@ public class ShopPopup : MonoBehaviour
 
     public void BuyItem()
     {
+        CurrencyManager currencyManager = ServiceLocator.Instance.GetService<CurrencyManager>();
         //initiaze the cost , money and quanity
         int totalCost = currentItem.buyPrice * currentQuantity;
         int playerMoney = CurrencyManager.Instance.GetCurrency();
@@ -104,10 +105,11 @@ public class ShopPopup : MonoBehaviour
             StartCoroutine(ShowWarningPanel());
             return;
         }
-        
-         // Deduct the total cost
-        CurrencyManager.Instance.SpendCurrency(totalCost);
-        
+
+        // Deduct the total cost
+        //CurrencyManager.Instance.SpendCurrency(totalCost);
+        currencyManager.SpendCurrency(totalCost);
+
         //UpdatePopupUI();
         if (inventoryController == null)
         {

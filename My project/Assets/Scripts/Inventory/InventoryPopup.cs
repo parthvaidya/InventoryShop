@@ -86,10 +86,12 @@ public class InventoryPopup : MonoBehaviour
 
     private void ConfirmSell()
     {
+        CurrencyManager currencyManager = ServiceLocator.Instance.GetService<CurrencyManager>();
         if (currentItem != null && currentQuantity > 0)
         {
             int totalSellPrice = currentItem.sellPrice * currentQuantity;
-            CurrencyManager.Instance.AddCurrency(totalSellPrice);
+            //CurrencyManager.Instance.AddCurrency(totalSellPrice);
+            currencyManager.AddCurrency(totalSellPrice);
             if (inventoryController == null)
             {
                 Debug.LogError("InventoryController is null!");

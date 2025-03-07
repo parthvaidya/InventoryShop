@@ -1,7 +1,6 @@
 using System;
 using TMPro;
 using UnityEngine;
-
 public class CurrencyManager : MonoBehaviour
 {
    //create a singleton for currency manager
@@ -17,6 +16,7 @@ public class CurrencyManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject); // Keep it persistent
+            ServiceLocator.Instance.RegisterService(this);
         }
         else
         {

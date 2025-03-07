@@ -53,39 +53,6 @@ public class InventoryView : MonoBehaviour
         capacityReachedPanel.SetActive(false);
     }
 
-    //add items to inventory
-    //public void AddItemToInventory(ShopItem item, InventoryController inventoryController)
-    //{
-    //    //find the item icon and text
-    //    GameObject newItem = Instantiate(itemPrefab, inventoryContainer);
-    //    Image itemIcon = newItem.transform.Find("ItemIcon").GetComponent<Image>();
-    //    TextMeshProUGUI quantityText = newItem.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-    //    itemIcon.sprite = item.icon;
-    //    quantityText.text = item.quantity.ToString();
-    //    displayedItems.Add(newItem); //display items
-    //    newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item, inventoryController, this));
-    //}
-
-    //refresh inventory
-    //public void RefreshInventoryUI(InventoryModel inventoryModel , InventoryController inventoryController)
-    //{
-    //    // Clear previous UI elements
-    //    foreach (var displayedItem in displayedItems)
-    //    {
-    //        Destroy(displayedItem);
-    //    }
-    //    displayedItems.Clear();
-
-    //    // Re-add the remaining items
-    //    foreach (var item in inventoryModel.GetAllItems())
-    //    {
-    //        AddItemToInventory(item , inventoryController);
-    //    }
-
-    //    // Update weight UI
-    //    UpdateWeightUI(inventoryModel.CurrentWeight, inventoryModel.MaxWeight);
-    //}
-
     public void RefreshInventoryUI(List<ShopItem> items)
     {
         foreach (var displayedItem in displayedItems)
