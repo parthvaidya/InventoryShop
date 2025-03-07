@@ -18,12 +18,8 @@ public class ShopViewPortButton : MonoBehaviour
         for (int i = 0; i < bindings.Length; i++)
         {
             int index = i; // Store index to avoid closure issue
-            
             bindings[i].button.onClick.AddListener(() => SetActiveViewport(index));
-            
         }
-
-        //SetActiveViewport(0); 
     }
 
     public void SetActiveViewport(int index)
@@ -31,7 +27,6 @@ public class ShopViewPortButton : MonoBehaviour
         for (int i = 0; i < bindings.Length; i++)
         {
             bindings[i].viewport.SetActive(i == index);
-            //SoundManager.Instance.Play(Sounds.ShopItems);
         }
     }
 }

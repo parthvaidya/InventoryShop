@@ -53,7 +53,7 @@ public class ConfirmationPopup : MonoBehaviour
     //confirm the message
     private void Confirm()
     {
-        SoundManager.Instance.Play(Sounds.ClickItem);
+        SoundHelper.PlaySound(Sounds.ClickItem);
         onConfirm?.Invoke();
         ShowSoldMessage();
         ClosePopup();
@@ -62,7 +62,7 @@ public class ConfirmationPopup : MonoBehaviour
     //show the sold popup
     private void ShowSoldMessage()
     {
-        SoundManager.Instance.Play(Sounds.PopupMusic);
+        SoundHelper.PlaySound(Sounds.PopupMusic);
         if (soldMessageText != null)
         {
             soldMessageText.text = "Item Sold!"; // Set message text
@@ -82,7 +82,7 @@ public class ConfirmationPopup : MonoBehaviour
     //close the popup panel
     private void ClosePopup()
     {
-        SoundManager.Instance.Play(Sounds.ClickItem);
+        SoundHelper.PlaySound(Sounds.ClickItem);
         popupPanel.SetActive(false);     
     }
 }

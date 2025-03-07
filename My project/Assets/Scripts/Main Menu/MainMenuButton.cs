@@ -16,14 +16,12 @@ public class MainMenuButton : MonoBehaviour
     //start the game
     private void startGame()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
         SceneManager.LoadScene(1);
     }
 
     //quit the game
     private void Quit()
     {
-        //SoundManager.Instance.Play(Sounds.ButtonClick);
         SceneManager.LoadScene(2);
     }
 }

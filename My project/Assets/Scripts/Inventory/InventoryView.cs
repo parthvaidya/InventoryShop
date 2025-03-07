@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
 public class InventoryView : MonoBehaviour
 {
     //add necessary game objects
@@ -19,7 +18,6 @@ public class InventoryView : MonoBehaviour
     [SerializeField] private InventoryController inventoryController;
     private List<GameObject> displayedItems = new List<GameObject>(); //display the items
     
-
     //initialze the buttons
     public void Initialize(System.Action onGatherResources, System.Action onClose)
     {
@@ -41,8 +39,7 @@ public class InventoryView : MonoBehaviour
     public void ShowCapacityReachedPanel()
     {
         capacityReachedPanel.SetActive(true);
-        SoundManager.Instance.Play(Sounds.Warning);
-        //StopCoroutine(HideCapacityPanel());
+        SoundHelper.PlaySound(Sounds.Warning);
         StartCoroutine(HideCapacityPanel());
     }
 
@@ -66,15 +63,12 @@ public class InventoryView : MonoBehaviour
             GameObject newItem = Instantiate(itemPrefab, inventoryContainer);
             Image itemIcon = newItem.transform.Find("ItemIcon").GetComponent<Image>();
             TextMeshProUGUI quantityText = newItem.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-
             itemIcon.sprite = item.icon;
             quantityText.text = item.quantity.ToString();
-
             newItem.GetComponent<Button>().onClick.AddListener(() => InventoryPopup.Instance.ShowItemPopup(item , inventoryController, this));
             displayedItems.Add(newItem);
         }
     }
-
 
     //close inventory panel
     public void CloseInventoryPanel()
@@ -86,7 +80,7 @@ public class InventoryView : MonoBehaviour
     public void ShowWarningPanel()
     {
         warningPanel.SetActive(true);
-        SoundManager.Instance.Play(Sounds.PopupMusic);
+        SoundHelper.PlaySound(Sounds.PopupMusic);
         StartCoroutine(HideWarningPanel());
     }
     //Coroutine to hide it

@@ -49,7 +49,6 @@ public class InventoryModel
             };
             items.Add(newItem);
         }
-
         CurrentWeight += item.weight * quantity; //update the weight
         OnInventoryUpdated?.Invoke(); //invoke the inventory
     }

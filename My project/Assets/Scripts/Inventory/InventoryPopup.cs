@@ -5,6 +5,8 @@ using UnityEngine.UI;
 public class InventoryPopup : MonoBehaviour
 {
     public static InventoryPopup Instance;
+    private ShopItem currentItem;
+    private int currentQuantity;
 
     [Header("UI References")]
     [SerializeField] private GameObject popupPanel;
@@ -13,12 +15,9 @@ public class InventoryPopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI quantityText, totalPriceText;
     [SerializeField] private TextMeshProUGUI inventoryQuantityText, expectedEarningsText;
     [SerializeField] private Button addButton, removeButton, sellButton, closeButton;
-
     [SerializeField] private InventoryController inventoryController;
     [SerializeField] private InventoryView inventoryView;
     [SerializeField] private InventoryModel inventoryModel;
-    private ShopItem currentItem;
-    private int currentQuantity;
 
     private void Awake()
     {
@@ -72,7 +71,7 @@ public class InventoryPopup : MonoBehaviour
 
     private void OpenSellConfirmation()
     {
-        SoundManager.Instance.Play(Sounds.ShopItems);
+        SoundHelper.PlaySound(Sounds.ShopItems);
         if (ConfirmationPopup.Instance == null)
         {
             Debug.LogError("ConfirmationPopup Instance is null! Ensure the popup exists in the scene.");
@@ -90,7 +89,6 @@ public class InventoryPopup : MonoBehaviour
         if (currentItem != null && currentQuantity > 0)
         {
             int totalSellPrice = currentItem.sellPrice * currentQuantity;
-            //CurrencyManager.Instance.AddCurrency(totalSellPrice);
             currencyManager.AddCurrency(totalSellPrice);
             if (inventoryController == null)
             {
@@ -107,12 +105,10 @@ public class InventoryPopup : MonoBehaviour
 
             currentQuantity = 1;
 
-            //inventoryController.RefreshInventoryUI();
             inventoryView.RefreshInventoryUI(inventoryController.InventoryModel.GetAllItems());
             inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
 
-            SoundManager.Instance.Play(Sounds.MoneyAdded);
-            
+            SoundHelper.PlaySound(Sounds.MoneyAdded);
             UpdatePopupUI();
             Canvas.ForceUpdateCanvases();
         }
@@ -120,7 +116,6 @@ public class InventoryPopup : MonoBehaviour
     public void ClosePopup()
     {
         popupPanel.SetActive(false);
-        //inventoryController.RefreshInventoryUI();
         inventoryView.RefreshInventoryUI(inventoryController.InventoryModel.GetAllItems());
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
     }

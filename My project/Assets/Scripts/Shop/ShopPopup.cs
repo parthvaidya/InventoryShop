@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class ShopPopup : MonoBehaviour
 {
     public static ShopPopup Instance; //create an instance
+    private ShopItem currentItem; // Update to use ShopItem
+    private int currentQuantity = 1;
 
     //add necessary fields
     [SerializeField] private GameObject popupPanel;
@@ -16,11 +18,9 @@ public class ShopPopup : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemNameText, itemDescriptionText, itemDetailsText;
     [SerializeField] private TextMeshProUGUI quantityText, totalPriceText,  playerMoneyText , shopQuantityText;
     [SerializeField] private Button addButton, removeButton, buyButton, closeButton;
-
     [SerializeField] private InventoryController inventoryController;
     [SerializeField] private InventoryView inventoryView;
-    private ShopItem currentItem; // Update to use ShopItem
-    private int currentQuantity = 1;
+    
 
     private void Awake()
     {
@@ -38,20 +38,16 @@ public class ShopPopup : MonoBehaviour
         buyButton.onClick.AddListener(BuyItem);
     }
 
-
     //show popup
     public void ShowItemPopup(ShopItem item, InventoryController inventoryController, InventoryView inventoryView) // Update to accept ShopItem
     {
         this.inventoryController = inventoryController;
-        this.inventoryView = inventoryView;
-        
+        this.inventoryView = inventoryView;        
         currentItem = item;
         currentQuantity = 1;
-        
         UpdatePopupUI();
         popupPanel.SetActive(true);
     }
-
 
     //update the popup UI
     private void UpdatePopupUI()
@@ -62,12 +58,13 @@ public class ShopPopup : MonoBehaviour
         itemDetailsText.text = $"Type: {currentItem.itemType}\n\nRarity: {currentItem.rarity}\n\nWeight: {currentItem.weight}\n\nBuy Price: {currentItem.buyPrice}G\n\nSell Price: {currentItem.sellPrice}G";
         quantityText.text = $"Quantity: {currentItem.quantity}";
         totalPriceText.text = $"Total: {currentItem.buyPrice * currentQuantity}G";
+        
         int playerMoney = CurrencyManager.Instance.GetCurrency();
         playerMoneyText.text = $"Coins: {playerMoney}";
         shopQuantityText.text = $"{currentQuantity}";
     }
 
-    //increase quantiyt
+    //increase quantity
     public void IncreaseQuantity()
     {
         //update current quantity 
@@ -77,7 +74,7 @@ public class ShopPopup : MonoBehaviour
             UpdatePopupUI();
         }
     }
-
+    
     //decrease the quantity
     public void DecreaseQuantity()
     {
@@ -88,18 +85,17 @@ public class ShopPopup : MonoBehaviour
         }
     }
 
-    
-
     public void BuyItem()
     {
         CurrencyManager currencyManager = ServiceLocator.Instance.GetService<CurrencyManager>();
+    
         //initiaze the cost , money and quanity
         int totalCost = currentItem.buyPrice * currentQuantity;
         int playerMoney = CurrencyManager.Instance.GetCurrency();
         int purchasedQuantity = currentQuantity;
-        
         currentItem.quantity -= purchasedQuantity;
-         if (playerMoney < totalCost)
+        
+        if (playerMoney < totalCost)
         {
             //warning panel for money 
             StartCoroutine(ShowWarningPanel());
@@ -107,7 +103,6 @@ public class ShopPopup : MonoBehaviour
         }
 
         // Deduct the total cost
-        //CurrencyManager.Instance.SpendCurrency(totalCost);
         currencyManager.SpendCurrency(totalCost);
 
         //UpdatePopupUI();
@@ -124,29 +119,27 @@ public class ShopPopup : MonoBehaviour
         inventoryController.AddItemToInventory(currentItem, currentQuantity);
 
         // Reset quantity and update UI
-        //inventoryController.RefreshInventoryUI();
         inventoryView.RefreshInventoryUI(inventoryController.InventoryModel.GetAllItems());
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
         inventoryController.InventoryModel.NotifyInventoryUpdated();
-       
         UpdatePopupUI();
         Canvas.ForceUpdateCanvases(); //used because the canvas forcefully updates as UI becomes slow in updating (Not the best practice but had to use )
-        
+    
         currentQuantity = 1;
         StartCoroutine(ShowBoughtPanel("Item Bought!!")); //show panel after item is bought
-        
+                                                          //
         if (currentItem.quantity <= 0) //new
         {
             ClosePopup();
         }
-        SoundManager.Instance.Play(Sounds.MoneyAdded);
+        SoundHelper.PlaySound(Sounds.MoneyAdded);
     }
 
     //coroutine for warning 
     private IEnumerator ShowWarningPanel()
     {
         warningPanel.SetActive(true);
-        SoundManager.Instance.Play(Sounds.Warning);
+        SoundHelper.PlaySound(Sounds.Warning);
         yield return new WaitForSeconds(2f);
         warningPanel.SetActive(false);
     }
@@ -164,7 +157,6 @@ public class ShopPopup : MonoBehaviour
     public void ClosePopup()
     {
         popupPanel.SetActive(false);
-        //inventoryController.RefreshInventoryUI();
         inventoryView.RefreshInventoryUI(inventoryController.InventoryModel.GetAllItems());
         inventoryView.UpdateWeightUI(inventoryController.CurrentWeight, inventoryController.MaxWeight);
     }

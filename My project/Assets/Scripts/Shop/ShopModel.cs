@@ -2,38 +2,16 @@ using System.Collections.Generic;
 
 public class ShopModel 
 {
-    //public List<ShopItem> items; //list of items
-
-    ////create a model
-    //public ShopModel()
-    //{
-    //    items = ShopServiceLocator.Instance.GetAllItems();
-    //}
-
-    ////get items by their types 
-    //public List<ShopItem> GetItemsByType(ItemType type)
-    //{
-    //    return type == ItemType.Consumables || type == ItemType.Materials || type == ItemType.Treasures || type == ItemType.Weapons
-    //        ? ShopServiceLocator.Instance.GetItemsByCategory(type)
-    //        : ShopServiceLocator.Instance.GetAllItems();
-    //}
-
-
-    ////reset the game
-    //public void ResetGame()
-    //{   
-    //    items.Clear(); // Clear the shop's current items
-    //    items = ShopServiceLocator.Instance.GetAllItems(); // Repopulate shop items
-    //}
-
-
+    //List of shop items
     public List<ShopItem> items;
 
+    //STore the items
     public ShopModel(List<ShopItem> initialItems)
     {
         items = new List<ShopItem>(initialItems);
     }
 
+    //Get the item based on its types
     public List<ShopItem> GetItemsByType(ItemType type)
     {
         if (type == ItemType.All)
@@ -43,6 +21,7 @@ public class ShopModel
         return items.FindAll(item => item.itemType == type);
     }
 
+    //Reset the game
     public void ResetGame(List<ShopItem> initialItems)
     {
         items.Clear();

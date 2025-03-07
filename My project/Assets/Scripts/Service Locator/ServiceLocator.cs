@@ -5,7 +5,7 @@ using UnityEngine;
 public class ServiceLocator : MonoBehaviour
 {
     public static ServiceLocator Instance { get; private set; }
-    private Dictionary<Type, object> services = new Dictionary<Type, object>();
+    private Dictionary<Type, object> services = new Dictionary<Type, object>(); //Store the services
 
     private void Awake()
     {
@@ -13,13 +13,12 @@ public class ServiceLocator : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
+        } else {
             Destroy(gameObject);
         }
     }
 
+    //Register the services
     public void RegisterService<T>(T service)
     {
         var type = typeof(T);
@@ -29,6 +28,7 @@ public class ServiceLocator : MonoBehaviour
         }
     }
 
+    //Get the desired service
     public T GetService<T>()
     {
         var type = typeof(T);
