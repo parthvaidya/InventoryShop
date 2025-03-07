@@ -15,6 +15,7 @@ public class ConfirmationPopup : MonoBehaviour
     [SerializeField] private GameObject itemSoldPanel;
     [SerializeField] private TextMeshProUGUI soldMessageText;
     [SerializeField] private GameObject invenryPopUp;
+
     
     private System.Action onConfirm;
     private void Awake()
@@ -65,7 +66,7 @@ public class ConfirmationPopup : MonoBehaviour
         SoundHelper.PlaySound(Sounds.PopupMusic);
         if (soldMessageText != null)
         {
-            soldMessageText.text = "Item Sold!"; // Set message text
+            soldMessageText.text = UIString.ItemSoldMessage; // Set message text
             soldMessageText.gameObject.SetActive(true);
             itemSoldPanel.SetActive(true);
             StartCoroutine(HideSoldPanelAfterDelay());// Show message   
